@@ -68,6 +68,8 @@
             this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cbJustRead = new System.Windows.Forms.CheckBox();
+            this.cbFromFileTcp = new System.Windows.Forms.CheckBox();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownComReadTimeout)).BeginInit();
@@ -75,6 +77,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonImport
@@ -371,6 +374,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.numericUpDown2);
+            this.groupBox1.Controls.Add(this.cbFromFileTcp);
             this.groupBox1.Controls.Add(this.btnIndPollInfo);
             this.groupBox1.Controls.Add(this.numericUpDown1);
             this.groupBox1.Controls.Add(this.btnIndPollCurrent);
@@ -523,6 +528,29 @@
             this.cbJustRead.Text = "Чтение";
             this.cbJustRead.UseVisualStyleBackColor = true;
             // 
+            // cbFromFileTcp
+            // 
+            this.cbFromFileTcp.AutoSize = true;
+            this.cbFromFileTcp.Location = new System.Drawing.Point(250, 66);
+            this.cbFromFileTcp.Name = "cbFromFileTcp";
+            this.cbFromFileTcp.Size = new System.Drawing.Size(75, 17);
+            this.cbFromFileTcp.TabIndex = 61;
+            this.cbFromFileTcp.Text = "Из файла";
+            this.toolTip1.SetToolTip(this.cbFromFileTcp, "Брать адрес и порт из загружаемой таблицы");
+            this.cbFromFileTcp.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(353, 40);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(56, 20);
+            this.numericUpDown2.TabIndex = 62;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -563,6 +591,7 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -605,6 +634,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button btnIndPollCurrent;
         private System.Windows.Forms.Button btnIndPollInfo;
+        private System.Windows.Forms.CheckBox cbFromFileTcp;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
     }
 }
 

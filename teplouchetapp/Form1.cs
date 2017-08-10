@@ -346,6 +346,8 @@ namespace elfextendedapp
             column.Caption = "Результат";
             column.ColumnName = "colResult";
 
+ 
+
 
 
 
@@ -403,6 +405,19 @@ namespace elfextendedapp
                 }
             } else if (cfgId == 1)
             {
+                if (cbFromFileTcp.Checked)
+                {
+                    column = dt.Columns.Add();
+                    column.DataType = typeof(string);
+                    column.Caption = "IP";
+                    column.ColumnName = "colIp";
+
+                    column = dt.Columns.Add();
+                    column.DataType = typeof(string);
+                    column.Caption = "Port";
+                    column.ColumnName = "colPort";
+                }
+
                 column = dt.Columns.Add();
                 column.DataType = typeof(string);
                 column.Caption = "Тип прибора";
@@ -417,6 +432,8 @@ namespace elfextendedapp
                 column.DataType = typeof(string);
                 column.Caption = "S/N прочитаный";
                 column.ColumnName = "colReadSN";
+
+
 
                 //данные
                 column = dt.Columns.Add();
@@ -578,7 +595,11 @@ namespace elfextendedapp
                             }
                         } else if (cfgId == 1)
                         {
-                            //
+                            if (cbFromFileTcp.Checked)
+                            {
+                                dataRow[3] = row_l.GetCell(colIPIndex).Value;
+                                dataRow[4] = row_l.GetCell(colPortIndex).Value;
+                            }
                         }
 
                         dt.Rows.Add(dataRow);
@@ -993,6 +1014,16 @@ namespace elfextendedapp
                     {
                         Meter = new PulsarDriver();
                         uint address = uint.Parse(o.ToString());
+
+                        if (cbFromFileTcp.Checked)
+                        {
+                            //TODO: сделать это подсосом из xml
+                            NameValueCollection loadedAppSettings = new NameValueCollection();
+                            loadedAppSettings.Add("localEndPointIp", "192.168.23.1");
+
+                            Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][3].ToString()), 600, 1000, 50, loadedAppSettings);
+                        }
+
                         Meter.Init(address, "", Vp);
 
                         if (cfgId == 1)
@@ -1008,24 +1039,48 @@ namespace elfextendedapp
                             {
                                 dt.Rows[i]["colReadSN"] = meterType;
                             }
+                            else
+                            {
+                                WriteToLog("Не определен тип счетчика");
+                            }
+
+                            bool isWater = false;
+                            if (meterType == "voda_rs485" || meterType == "pulsarM")
+                                isWater = true;
 
                             List<byte> typesList = new List<byte>();
-                            typesList.Add(3); //t pod
-                            typesList.Add(4);// t obr
-                            typesList.Add(7); //energy
-                            typesList.Add(8); //volume
-                            Meter.SetTypesForRead(typesList);
 
-                            string constDbl = "0.#######"; 
+                            if (!isWater)
+                            { 
+                                typesList.Add(3); //t pod
+                                typesList.Add(4); //t obr
+                                typesList.Add(7); //energy
+                                typesList.Add(8); //volume
+                                Meter.SetTypesForRead(typesList);
 
-                            Values val = new Values();
-                            if (Meter.ReadCurrentValues(ref val))
-                            {
-                                dt.Rows[i]["colTempPod"] = val.listRV[0].value;
-                                dt.Rows[i]["colTempObr"] = val.listRV[1].value;
-                                dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
-                                dt.Rows[i]["colVolume"] = val.listRV[3].value;
+                                string constDbl = "0.#######"; 
+
+                                Values val = new Values();
+                                if (Meter.ReadCurrentValues(ref val))
+                                {
+                                    dt.Rows[i]["colTempPod"] = val.listRV[0].value;
+                                    dt.Rows[i]["colTempObr"] = val.listRV[1].value;
+                                    dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
+                                    dt.Rows[i]["colVolume"] = val.listRV[3].value;
+                                }
                             }
+                            else
+                            {
+                                typesList.Add(1); //1 канал
+                                Meter.SetTypesForRead(typesList);
+
+                                Values val = new Values();
+                                if (Meter.ReadCurrentValues(ref val))
+                                {
+                                    dt.Rows[i]["colVolume"] = val.listRV[0].value;
+                                }
+                            }
+
 
                             string timeOn = "";
                             if (Meter.ReadTimeOn(ref timeOn))
