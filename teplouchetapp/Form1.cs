@@ -1004,6 +1004,11 @@ namespace elfextendedapp
                                 dt.Rows[i]["colMeterType"] = meterType;
                             }
 
+                            if (Meter.ReadSerialNumber(ref meterType))
+                            {
+                                dt.Rows[i]["colReadSN"] = meterType;
+                            }
+
                             List<byte> typesList = new List<byte>();
                             typesList.Add(3); //t pod
                             typesList.Add(4);// t obr
@@ -1011,12 +1016,14 @@ namespace elfextendedapp
                             typesList.Add(8); //volume
                             Meter.SetTypesForRead(typesList);
 
+                            string constDbl = "0.#######"; 
+
                             Values val = new Values();
                             if (Meter.ReadCurrentValues(ref val))
                             {
                                 dt.Rows[i]["colTempPod"] = val.listRV[0].value;
                                 dt.Rows[i]["colTempObr"] = val.listRV[1].value;
-                                dt.Rows[i]["colEnergy"] = val.listRV[2].value;
+                                dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
                                 dt.Rows[i]["colVolume"] = val.listRV[3].value;
                             }
 
