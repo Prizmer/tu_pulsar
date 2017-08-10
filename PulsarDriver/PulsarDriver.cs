@@ -137,6 +137,8 @@ namespace Drivers.PulsarDriver
                     // проверка ID
                     if (m_cmd[out_packet_length - 4] == in_buffer[packet_length - 4] && m_cmd[out_packet_length - 3] == in_buffer[packet_length - 3])
                     {
+                       values.listRV = new List<RecordValue>();
+
                         for (int i = 0; i < m_listTypesForRead.Count; i++)
                         {
                             RecordValue recordValue;
@@ -144,12 +146,11 @@ namespace Drivers.PulsarDriver
                             recordValue.fine_state = true;
                             recordValue.value = 0;
                             // recordValue.value = Math.Round(BitConverter.ToDouble(in_buffer, 6 + i * 8), 4);
-                            recordValue.value = Math.Round(BitConverter.ToSingle(in_buffer, 6 + i * 4), 4);
+                            recordValue.value = Math.Round(BitConverter.ToSingle(in_buffer, 6 + i * 4), 7);
                             recordValue.fine_state = true;
-                            values.listRV = new List<RecordValue>();
                             values.listRV.Add(recordValue);
 
-                            WriteToLog("Значение: " + recordValue.value);
+                            //WriteToLog("Значение: " + recordValue.value);
                         }
 
                         return true;
@@ -368,7 +369,7 @@ namespace Drivers.PulsarDriver
                                             else
                                             {
                                                 recordValue.fine_state = true;
-                                                recordValue.value = Math.Round(BitConverter.ToSingle(temp_buff, 0), 4);
+                                                recordValue.value = Math.Round(BitConverter.ToSingle(temp_buff, 0), 7);
                                             }
 
                                             //WriteToLog("value=" + recordValue.value.ToString());
