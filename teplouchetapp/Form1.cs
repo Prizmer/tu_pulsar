@@ -535,7 +535,7 @@ namespace elfextendedapp
                         int iFlatNumber = -1;
                         if (oFlatNumber != null)
                         {
-                            string tmpStrNumb = oFlatNumber.ToString().Replace("Квартира ", "");
+                            string tmpStrNumb = oFlatNumber.ToString().Replace("Квартира ", "").Replace("Офис ", "");
                             strFlatPrevNumber = tmpStrNumb;
                             if (!int.TryParse(tmpStrNumb, out iFlatNumber))
                             {
@@ -1346,7 +1346,7 @@ namespace elfextendedapp
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            Label textLabel = new Label() { Left = 50, Top = 20, Width = 400, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
             Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { prompt.Close(); };
