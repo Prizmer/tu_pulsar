@@ -472,9 +472,11 @@ namespace elfextendedapp
                 //auto detection of working mode
                 object typeDirectiveVal = "";
 
+
+
                 try
                 {
-                    Row zeroRow = book.Worksheets[0].Cells.GetRow(0);
+                     Row zeroRow = book.Worksheets[0].Cells.GetRow(0);
                     typeDirectiveVal = zeroRow.GetCell(0).Value;
                 }
                 catch (Exception ex)
@@ -485,9 +487,23 @@ namespace elfextendedapp
                 dt = new DataTable();
                 createMainTable(ref dt);
 
+                Worksheet workSheet = book.Worksheets[0];
+
+              
+                if (book.Worksheets.Count > 1)
+                {
+                    string wshIndexStr = Prompt.ShowDialog("Укажите номер листа, начиная с 1", "Выберите лист");
+                    int wshIndex = 1;
+                    if (!int.TryParse(wshIndexStr, out wshIndex) || book.Worksheets.Count < wshIndex)
+                        MessageBox.Show("Введен неверный некорректный номер");
+          
+                    wshIndex--;
+                    workSheet = book.Worksheets[wshIndex];
+                }
+
+
                 int rowsInFile = 0;
-                for (int i = 0; i < book.Worksheets.Count; i++)
-                    rowsInFile += book.Worksheets[i].Cells.LastRowIndex - firstRowIndex;
+                rowsInFile = workSheet.Cells.LastRowIndex - firstRowIndex;
 
                 //setting up progress bar
                 toolStripProgressBar1.Minimum = 0;
@@ -497,7 +513,7 @@ namespace elfextendedapp
                 //filling internal data table with *.xls file data according to *.config file
                 for (int i = 0; i < 1; i++)
                 {
-                    Worksheet sheet = book.Worksheets[i];
+                    Worksheet sheet = workSheet;
                     //если пусто в номере квартиры, берем предыдущий
                     string strFlatPrevNumber = "";
 
@@ -1315,6 +1331,31 @@ namespace elfextendedapp
         private void richTextBox1_DoubleClick(object sender, EventArgs e)
         {
             richTextBox1.Clear();
+        }
+    }
+
+    public static class Prompt
+    {
+        public static string ShowDialog(string text, string caption)
+        {
+            Form prompt = new Form()
+            {
+                Width = 500,
+                Height = 150,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = caption,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
+            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.AcceptButton = confirmation;
+
+            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
         }
     }
 }
