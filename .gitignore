@@ -1,0 +1,12 @@
+teplouchetapp.suo
+obj
+/PulsarDriver/obj
+/PulsarDriver/obj/*
+/teplouchetapp/obj
+/teplouchetapp/obj/*
+/teplouchetapp/bin/Debug/*.pi
+/teplouchetapp/bin/Debug/logs
+/teplouchetapp/bin/Debug/logs/*
+/teplouchetapp/bin/Debug/*.pdb
+/teplouchetapp/bin/Debug/*.manifest
+/teplouchetapp/bin/Debug/*.txt
