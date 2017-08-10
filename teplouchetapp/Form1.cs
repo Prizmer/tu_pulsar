@@ -1024,11 +1024,10 @@ namespace elfextendedapp
                             if (Meter.ReadTimeOn(ref timeOn))
                             {
                                 dt.Rows[i]["colTime"] = timeOn;
-                                dt.Rows[i]["colTimeErr"] = "-";
                             }
                             if (Meter.ReadTimeOnErr(ref timeOn))
                             {
-                                dt.Rows[i]["colTimeErr"] = "-";
+                                dt.Rows[i]["colTimeErr"] = timeOn;
                             }
                         }
                         else
