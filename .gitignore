@@ -10,3 +10,9 @@ obj
 /teplouchetapp/bin/Debug/*.pdb
 /teplouchetapp/bin/Debug/*.manifest
 /teplouchetapp/bin/Debug/*.txt
+/teplouchetapp/bin/Debug/Эльф-опрос.vshost.exe.config
+/teplouchetapp/bin/Debug/Пульсар-инит.vshost.exe
+/teplouchetapp/bin/Debug/Пульсар-инит.vshost.exe.config
+/PulsarDriver/bin/Debug/*.pdb
+/teplouchetapp/bin/Debug/elfextended.vshost.exe.config
+/teplouchetapp/bin/Debug/elfextendedapp.vshost.exe.config
