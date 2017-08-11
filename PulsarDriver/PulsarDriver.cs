@@ -585,117 +585,124 @@ namespace Drivers.PulsarDriver
 
         public bool ReadSerialNumber(ref string serial_number)
         {
-            m_length_cmd = 0;
-            Byte[] in_buffer = new Byte[255];
-
-            byte func = 0x0A;
-            byte out_packet_length = 0x0C;
-            m_cmd = new byte[out_packet_length];
-
-            ushort rnd = 0x50b9;
-
-            // адрес
-            byte[] adr = new byte[4];
-            Int2BCD((int)m_address, adr);
-
-            byte[] parameter = { 0x02, 0x0};
-            byte[] random = BitConverter.GetBytes(rnd);
-
-            // формируем команду 
-            // адрес
-            for (int i = 0; i < adr.Length; i++)
-                m_cmd[m_length_cmd++] = adr[i];
-
-            // номер функции
-            m_cmd[m_length_cmd++] = func;
-            // общая длина пакета
-            m_cmd[m_length_cmd++] = out_packet_length;
-
-
-            // параметры
-            for (int i = 0; i < parameter.Length; i++)
-                m_cmd[m_length_cmd++] = parameter[i];
-
-            // ID
-            for (int i = 0; i < random.Length; i++)
-                m_cmd[m_length_cmd++] = random[i];
-
-            // CRC16
-            byte[] crc16 = CRC16(m_cmd, m_length_cmd);
-            for (int i = 0; i < crc16.Length; i++)
-                m_cmd[m_length_cmd++] = crc16[i];
-
-
-           // WriteToLog("ReadCurrentValues: Исходящие: " + BitConverter.ToString(m_cmd));
-            if (m_vport.WriteReadData(FindPacketSignature, m_cmd, ref in_buffer, m_length_cmd, -1) > 0)
+            try
             {
-                //WriteToLog("ReadCurrentValues: Входящие: " + BitConverter.ToString(in_buffer));
-                //WriteToLog("WriteReadData");
-                bool find_header = true;
+                m_length_cmd = 0;
+                Byte[] in_buffer = new Byte[255];
 
-                // длина пакета 
-                byte packet_length = 0;
+                byte func = 0x0A;
+                byte out_packet_length = 0x0C;
+                m_cmd = new byte[out_packet_length];
 
-                // проверка заголовка пакета
-                for (int i = 0; i < 5; i++)
+                ushort rnd = 0x50b9;
+
+                // адрес
+                byte[] adr = new byte[4];
+                Int2BCD((int)m_address, adr);
+
+                byte[] parameter = { 0x02, 0x0 };
+                byte[] random = BitConverter.GetBytes(rnd);
+
+                // формируем команду 
+                // адрес
+                for (int i = 0; i < adr.Length; i++)
+                    m_cmd[m_length_cmd++] = adr[i];
+
+                // номер функции
+                m_cmd[m_length_cmd++] = func;
+                // общая длина пакета
+                m_cmd[m_length_cmd++] = out_packet_length;
+
+
+                // параметры
+                for (int i = 0; i < parameter.Length; i++)
+                    m_cmd[m_length_cmd++] = parameter[i];
+
+                // ID
+                for (int i = 0; i < random.Length; i++)
+                    m_cmd[m_length_cmd++] = random[i];
+
+                // CRC16
+                byte[] crc16 = CRC16(m_cmd, m_length_cmd);
+                for (int i = 0; i < crc16.Length; i++)
+                    m_cmd[m_length_cmd++] = crc16[i];
+
+
+                // WriteToLog("ReadCurrentValues: Исходящие: " + BitConverter.ToString(m_cmd));
+                if (m_vport.WriteReadData(FindPacketSignature, m_cmd, ref in_buffer, m_length_cmd, -1) > 0)
                 {
-                    if (m_cmd[i] != in_buffer[i])
+                    //WriteToLog("ReadCurrentValues: Входящие: " + BitConverter.ToString(in_buffer));
+                    //WriteToLog("WriteReadData");
+                    bool find_header = true;
+
+                    // длина пакета 
+                    byte packet_length = 0;
+
+                    // проверка заголовка пакета
+                    for (int i = 0; i < 5; i++)
                     {
-                        find_header = false;
-                    }
-                }
-
-                if (find_header)
-                {
-                    //WriteToLog("find_header");
-                    packet_length = in_buffer[5];
-
-                    // проверка CRC
-                    crc16 = CRC16(in_buffer, packet_length - 2);
-
-                    if (in_buffer[packet_length - 2] == crc16[0] && in_buffer[packet_length - 1] == crc16[1])
-                    {
-                        // проверка ID
-                        if (m_cmd[out_packet_length - 4] == in_buffer[packet_length - 4] && m_cmd[out_packet_length - 3] == in_buffer[packet_length - 3])
+                        if (m_cmd[i] != in_buffer[i])
                         {
-                            byte[] meterAddrArr = new byte[8];
-                            int stInd = 6;
-                            int l = 8;
-                            serial_number = "";
+                            find_header = false;
+                        }
+                    }
 
-                            try
+                    if (find_header)
+                    {
+                        //WriteToLog("find_header");
+                        packet_length = in_buffer[5];
+
+                        // проверка CRC
+                        crc16 = CRC16(in_buffer, packet_length - 2);
+
+                        if (in_buffer[packet_length - 2] == crc16[0] && in_buffer[packet_length - 1] == crc16[1])
+                        {
+                            // проверка ID
+                            if (m_cmd[out_packet_length - 4] == in_buffer[packet_length - 4] && m_cmd[out_packet_length - 3] == in_buffer[packet_length - 3])
                             {
-                                for (int i = stInd + l - 1; i >= stInd; i--)
+                                byte[] meterAddrArr = new byte[8];
+                                int stInd = 6;
+                                int l = 8;
+                                serial_number = "";
+
+                                try
                                 {
-                                    if (serial_number == "" && in_buffer[i] == 0x0)
-                                        continue;
+                                    for (int i = stInd + l - 1; i >= stInd; i--)
+                                    {
+                                        if (serial_number == "" && in_buffer[i] == 0x0)
+                                            continue;
 
-                                    serial_number += BitConverter.ToString(in_buffer, i, 1);
+                                        serial_number += BitConverter.ToString(in_buffer, i, 1);
+                                    }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                WriteToLog("ReadSerialNumber: " + ex);
-                                return false;
-                            }
+                                catch (Exception ex)
+                                {
+                                    WriteToLog("ReadSerialNumber: " + ex);
+                                    return false;
+                                }
 
-                            //WriteToLog("Серийник: " + serial_number);
-                            return true;
+                                //WriteToLog("Серийник: " + serial_number);
+                                return true;
+                            }
+                            else
+                            {
+                                WriteToLog("ReadSerialNumber: неверный id");
+                            }
                         }
                         else
                         {
-                            WriteToLog("ReadSerialNumber: неверный id");
+                            WriteToLog("ReadSerialNumber: неверный CRC");
                         }
                     }
                     else
                     {
-                        WriteToLog("ReadSerialNumber: неверный CRC");
+                        WriteToLog("ReadSerialNumber: первые 5 байт не равняются отправленной команде");
                     }
                 }
-                else
-                {
-                    WriteToLog("ReadSerialNumber: первые 5 байт не равняются отправленной команде");
-                }
+            }
+            catch (Exception ex)
+            {
+                WriteToLog("ReadSerialNumber: " + ex);
             }
 
             return false;
@@ -703,6 +710,9 @@ namespace Drivers.PulsarDriver
 
         public bool ReadSoftwareVersion(ref string softwareVersion)
         {
+
+            try
+            {
 
                 softwareVersion = "";
                 m_length_cmd = 0;
@@ -808,6 +818,11 @@ namespace Drivers.PulsarDriver
                         WriteToLog("ReadSoftwareVersion: первые 5 байт не равняются отправленной команде");
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                WriteToLog("ReadSoftwareVersion: " + ex);
+            }
 
                 return false;
             }
@@ -1034,92 +1049,100 @@ namespace Drivers.PulsarDriver
 
         public bool ReadMeterType(ref string softwareVersion)
         {
-            softwareVersion = "";
-            m_length_cmd = 0;
-            Byte[] in_buffer = new Byte[255];
 
-            m_cmd = new byte[11];
-   
-            // адрес
-            byte[] adr = new byte[4];
-            Int2BCD((int)m_address, adr);
-
-            byte[] parameter = { 0x03, 0x02, 0x46, 0x0, 0x01 };
-
-            // формируем команду 
-            // адрес
-            for (int i = 0; i < adr.Length; i++)
-                m_cmd[m_length_cmd++] = adr[i];
-
-            // параметры
-            for (int i = 0; i < parameter.Length; i++)
-                m_cmd[m_length_cmd++] = parameter[i];
-
-            // CRC16
-            byte[] crc16 = CRC16(m_cmd, m_length_cmd);
-            for (int i = 0; i < crc16.Length; i++)
-                m_cmd[m_length_cmd++] = crc16[i];
-
-
-            // WriteToLog("ReadCurrentValues: Исходящие: " + BitConverter.ToString(m_cmd));
-            if (m_vport.WriteReadData(FindPacketSignature, m_cmd, ref in_buffer, m_length_cmd, -1) > 0)
+            try
             {
-                //WriteToLog("ReadCurrentValues: Входящие: " + BitConverter.ToString(in_buffer));
-                //WriteToLog("WriteReadData");
-                bool find_header = true;
+                softwareVersion = "";
+                m_length_cmd = 0;
+                Byte[] in_buffer = new Byte[255];
 
-                // длина пакета 
-                byte packet_length = 10;
+                m_cmd = new byte[11];
 
-                // проверка заголовка пакета
-                for (int i = 0; i < 5; i++)
+                // адрес
+                byte[] adr = new byte[4];
+                Int2BCD((int)m_address, adr);
+
+                byte[] parameter = { 0x03, 0x02, 0x46, 0x0, 0x01 };
+
+                // формируем команду 
+                // адрес
+                for (int i = 0; i < adr.Length; i++)
+                    m_cmd[m_length_cmd++] = adr[i];
+
+                // параметры
+                for (int i = 0; i < parameter.Length; i++)
+                    m_cmd[m_length_cmd++] = parameter[i];
+
+                // CRC16
+                byte[] crc16 = CRC16(m_cmd, m_length_cmd);
+                for (int i = 0; i < crc16.Length; i++)
+                    m_cmd[m_length_cmd++] = crc16[i];
+
+
+                // WriteToLog("ReadCurrentValues: Исходящие: " + BitConverter.ToString(m_cmd));
+                if (m_vport.WriteReadData(FindPacketSignature, m_cmd, ref in_buffer, m_length_cmd, -1) > 0)
                 {
-                    if (m_cmd[i] != in_buffer[i])
+                    //WriteToLog("ReadCurrentValues: Входящие: " + BitConverter.ToString(in_buffer));
+                    //WriteToLog("WriteReadData");
+                    bool find_header = true;
+
+                    // длина пакета 
+                    byte packet_length = 10;
+
+                    // проверка заголовка пакета
+                    for (int i = 0; i < 5; i++)
                     {
-                        find_header = false;
+                        if (m_cmd[i] != in_buffer[i])
+                        {
+                            find_header = false;
+                        }
                     }
-                }
 
-                if (find_header)
-                {
-                    // проверка CRC
-                    crc16 = CRC16(in_buffer, packet_length - 2);
-
-                    if (in_buffer[packet_length - 2] == crc16[0] && in_buffer[packet_length - 1] == crc16[1])
+                    if (find_header)
                     {
-                        int stInd = 6;
-                        try
-                        {
-                            uint swVersion = BitConverter.ToUInt16(in_buffer, stInd);
-                            if (Enum.IsDefined(typeof(PulsarMeterTypes), (int)swVersion))
-                            {
-                                this.meterType = (PulsarMeterTypes)(int)swVersion;
-                                softwareVersion = Enum.GetName(typeof(PulsarMeterTypes), (int)swVersion);
-                            }
-                            else
-                            {
-                                softwareVersion = swVersion.ToString();
-                                WriteToLog("ReadMeterType: модели счетчика типа " + swVersion + " нет в перечислении PulsarMeterTypes");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            WriteToLog("ReadMeterType: " + ex);
-                            return false;
-                        }
+                        // проверка CRC
+                        crc16 = CRC16(in_buffer, packet_length - 2);
 
-                        //WriteToLog("Серийник: " + serial_number);
-                        return true;
+                        if (in_buffer[packet_length - 2] == crc16[0] && in_buffer[packet_length - 1] == crc16[1])
+                        {
+                            int stInd = 6;
+                            try
+                            {
+                                uint swVersion = BitConverter.ToUInt16(in_buffer, stInd);
+                                if (Enum.IsDefined(typeof(PulsarMeterTypes), (int)swVersion))
+                                {
+                                    this.meterType = (PulsarMeterTypes)(int)swVersion;
+                                    softwareVersion = Enum.GetName(typeof(PulsarMeterTypes), (int)swVersion);
+                                }
+                                else
+                                {
+                                    softwareVersion = swVersion.ToString();
+                                    WriteToLog("ReadMeterType: модели счетчика типа " + swVersion + " нет в перечислении PulsarMeterTypes");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                WriteToLog("ReadMeterType: " + ex);
+                                return false;
+                            }
+
+                            //WriteToLog("Серийник: " + serial_number);
+                            return true;
+                        }
+                        else
+                        {
+                            WriteToLog("ReadMeterType: неверный CRC");
+                        }
                     }
                     else
                     {
-                        WriteToLog("ReadMeterType: неверный CRC");
+                        WriteToLog("ReadMeterType: первые 5 байт не равняются отправленной команде");
                     }
                 }
-                else
-                {
-                    WriteToLog("ReadMeterType: первые 5 байт не равняются отправленной команде");
-                }
+            }
+            catch (Exception ex)
+            {
+                WriteToLog("ReadMeterType: " + ex);
             }
 
             return false;
