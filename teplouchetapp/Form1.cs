@@ -716,6 +716,16 @@ namespace elfextendedapp
                     {
                         Meter = new PulsarDriver();
                         uint address = uint.Parse(o.ToString());
+
+                        if (cbFromFileTcp.Checked)
+                        {
+                            //TODO: сделать это подсосом из xml
+                            NameValueCollection loadedAppSettings = new NameValueCollection();
+                            loadedAppSettings.Add("localEndPointIp", "192.168.23.1");
+
+                            Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][4].ToString()), 600, 1000, 50, loadedAppSettings);
+                        }
+
                         Meter.Init(address, "", Vp);
 
                         string readSerial = "";
@@ -1020,7 +1030,7 @@ namespace elfextendedapp
                             NameValueCollection loadedAppSettings = new NameValueCollection();
                             loadedAppSettings.Add("localEndPointIp", "192.168.23.1");
 
-                            Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][3].ToString()), 600, 1000, 50, loadedAppSettings);
+                            Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][4].ToString()), 600, 1000, 50, loadedAppSettings);
                         }
 
                         Meter.Init(address, "", Vp);
