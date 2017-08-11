@@ -736,6 +736,7 @@ namespace elfextendedapp
                         }
                         else
                         {
+                            dt.Rows[i]["colResult"] = "Ошибка";
                             goto PREEND;
                         }
     
@@ -1044,6 +1045,10 @@ namespace elfextendedapp
 
                             if (meterType == "voda_rs485" || meterType == "pulsarM")
                                 isWater = true;
+                        } 
+                        else
+                        {
+                            dt.Rows[i]["colResult"] = "Ошибка";
                         }
 
                         if (Meter.ReadSerialNumber(ref meterType))

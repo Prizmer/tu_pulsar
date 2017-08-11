@@ -42,18 +42,25 @@ namespace Drivers.PulsarDriver
                     meterType = PulsarMeterTypes.kompaktniy_teplo_v3;
             }
 
-            if (meterType == PulsarMeterTypes.pulsarM)
+            try
+            { 
+                if (meterType == PulsarMeterTypes.pulsarM)
+                {
+                    //согласно документации
+                    val = (double)BitConverter.ToInt32(data, 6 + startIndexMult * 4) / 1000;
+                }
+                else if (meterType == PulsarMeterTypes.voda_rs485)
+                {
+                    val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+                }
+                else if (meterType == PulsarMeterTypes.kompaktniy_teplo_v3)
+                {
+                    val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+                }
+            }catch(Exception ex)
             {
-                //согласно документации
-                val = (double)BitConverter.ToInt32(data, 6 + startIndexMult * 4) / 1000;
-            }
-            else if (meterType == PulsarMeterTypes.voda_rs485)
-            {
-                val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
-            }
-            else if (meterType == PulsarMeterTypes.kompaktniy_teplo_v3)
-            {
-                val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+                WriteToLog("GetValueFromBytesByMeterType: возможно выбран параметр не поддерживаемый данной версией счетчика: " + ex);
+                return false;
             }
 
             val = Math.Round(val, 7);
@@ -178,7 +185,8 @@ namespace Drivers.PulsarDriver
                             recordValue.fine_state = true;
                             recordValue.value = -1;
 
-                            GetValueFromBytesByMeterType(in_buffer, i, out recordValue.value);
+                            if (!GetValueFromBytesByMeterType(in_buffer, i, out recordValue.value))
+                                return false;
 
 
                             values.listRV.Add(recordValue);
