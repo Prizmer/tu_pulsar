@@ -145,8 +145,9 @@ namespace Drivers.PulsarDriver
                             recordValue.type = m_listTypesForRead[i];
                             recordValue.fine_state = true;
                             recordValue.value = 0;
-                            // recordValue.value = Math.Round(BitConverter.ToDouble(in_buffer, 6 + i * 8), 4);
-                            recordValue.value = Math.Round(BitConverter.ToSingle(in_buffer, 6 + i * 4), 7);
+                                // recordValue.value = Math.Round(BitConverter.ToDouble(in_buffer, 6 + i * 8), 4);
+                                WriteToLog("Значение до округ: " + BitConverter.ToSingle(in_buffer, 6 + i * 4));
+                                recordValue.value = Math.Round(BitConverter.ToSingle(in_buffer, 6 + i * 4), 7);
                             recordValue.fine_state = true;
                             values.listRV.Add(recordValue);
 
