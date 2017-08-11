@@ -291,6 +291,10 @@ namespace elfextendedapp
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //byte[] data = new byte[] { 0x11, 0x08, 0x03, 0x00 };
+            //float val = BitConverter.ToSingle(data, 0);
+            //MessageBox.Show(val.ToString("0.############"));
+
             //setting up dialogs
             ofd1.Filter = "Excel files (*.xls) | *.xls";
             sfd1.Filter = ofd1.Filter;

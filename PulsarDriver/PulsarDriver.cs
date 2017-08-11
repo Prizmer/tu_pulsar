@@ -439,15 +439,18 @@ namespace Drivers.PulsarDriver
                                                 temp_buff[b] = in_buffer[6 + 4 + 6 + d * 4 + b];
                                             }
 
+                                            recordValue.fine_state = true;
                                             if ((temp_buff[0] == 0xF0 || temp_buff[0] == 0xF1) && temp_buff[1] == 0xFF && temp_buff[2] == 0xFF && temp_buff[3] == 0xFF)
                                             {
-                                                recordValue.fine_state = true;
+
                                                 recordValue.value = 0;
                                             }
                                             else
                                             {
                                                 recordValue.fine_state = true;
-                                                GetValueFromBytesByMeterType(temp_buff, 0, out recordValue.value, true);
+                                                if (!GetValueFromBytesByMeterType(temp_buff, 0, out recordValue.value, true)){
+                                                    return false;
+                                                }
                                             }
 
                                             //WriteToLog("value=" + recordValue.value.ToString());
