@@ -139,9 +139,7 @@ namespace Drivers.PulsarDriver
             bytes_to_read = 10 + 8 * m_listTypesForRead.Count;
 
         //WriteToLog("m_length_cmd=" + m_length_cmd.ToString());
-
         //WriteToLog("bytes_to_read=" + bytes_to_read.ToString());
-
 
         WriteToLog("ReadCurrentValues: Исходящие: " + BitConverter.ToString(m_cmd));
             if (m_vport.WriteReadData(FindPacketSignature, m_cmd, ref in_buffer, m_length_cmd, -1) > 0)
@@ -152,6 +150,10 @@ namespace Drivers.PulsarDriver
 
             // длина пакета 
             byte packet_length = 0;
+
+
+            if (!CheckReceivedBytes(in_buffer, "ReadCurrentValues"))
+                return false;       
 
             // проверка заголовка пакета
             for (int i = 0; i < 5; i++)
@@ -216,6 +218,34 @@ namespace Drivers.PulsarDriver
             }
 
             return false;
+        }
+
+        bool CheckReceivedBytes(byte[] data, string methodName = "")
+        {
+            if (data.Length == 0)
+            {
+                WriteToLog(methodName + ": получено 0 байт");
+                WriteToLog(methodName + ": прекращает работу");
+                return false;
+            }
+
+            if (data.Length < 6)
+            {
+                WriteToLog(methodName + ": получено мало байт - " + data.Length);
+                WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
+                WriteToLog(methodName + ": прекращает работу");
+                return false;
+            }
+
+            if (data.Length > 5 && data.Length < data[5])
+            {
+                WriteToLog(methodName + ": сообщение должно быть минимум - " + data[5] + " байт, а пришло лишь " + data.Length);
+                WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
+                WriteToLog(methodName + ": прекращает работу");
+                return false;
+            }
+
+            return true;
         }
 
         public bool ReadMonthlyValues(byte month, ushort year, ref Values values)
@@ -355,6 +385,9 @@ namespace Drivers.PulsarDriver
 
                     // длина пакета 
                     byte packet_length = 0;
+
+                    if (!CheckReceivedBytes(in_buffer, "ReadArchive"))
+                        return false;
 
                     // проверка заголовка пакета
                     for (int i = 0; i < 5; i++)
@@ -635,6 +668,9 @@ namespace Drivers.PulsarDriver
                     //WriteToLog("WriteReadData");
                     bool find_header = true;
 
+                    if (!CheckReceivedBytes(in_buffer, "ReadSerialNumber"))
+                        return false;
+
                     // длина пакета 
                     byte packet_length = 0;
 
@@ -766,6 +802,9 @@ namespace Drivers.PulsarDriver
                     // длина пакета 
                     byte packet_length = 0;
 
+                    if (!CheckReceivedBytes(in_buffer, "ReadSoftwareVersion"))
+                        return false;
+
                     // проверка заголовка пакета
                     for (int i = 0; i < 5; i++)
                     {
@@ -881,6 +920,9 @@ namespace Drivers.PulsarDriver
                 // длина пакета 
                 byte packet_length = 0;
 
+                if (!CheckReceivedBytes(in_buffer, "ReadTimeOn"))
+                    return false;
+
                 // проверка заголовка пакета
                 for (int i = 0; i < 5; i++)
                 {
@@ -991,6 +1033,9 @@ namespace Drivers.PulsarDriver
                 // длина пакета 
                 byte packet_length = 0;
 
+                if (!CheckReceivedBytes(in_buffer, "ReadTimeOnErr"))
+                    return false;
+
                 // проверка заголовка пакета
                 for (int i = 0; i < 5; i++)
                 {
@@ -1088,6 +1133,9 @@ namespace Drivers.PulsarDriver
 
                     // длина пакета 
                     byte packet_length = 10;
+
+                    if (!CheckReceivedBytes(in_buffer, "ReadMeterType"))
+                        return false;
 
                     // проверка заголовка пакета
                     for (int i = 0; i < 5; i++)
