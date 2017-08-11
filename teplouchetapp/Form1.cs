@@ -290,7 +290,7 @@ namespace elfextendedapp
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {           
+        {
             //setting up dialogs
             ofd1.Filter = "Excel files (*.xls) | *.xls";
             sfd1.Filter = ofd1.Filter;
@@ -1007,7 +1007,6 @@ namespace elfextendedapp
                 int i = rowsList[m];
                 object o = dt.Rows[i]["colFactory"];
 
-
                 if (o != null)
                 {
                     try
@@ -1026,89 +1025,72 @@ namespace elfextendedapp
 
                         Meter.Init(address, "", Vp);
 
-                        if (cfgId == 1)
+                        string meterType = "";
+                        bool isWater = false;
+                        if (Meter.ReadMeterType(ref meterType))
                         {
-                            string meterType = "";
-                            if (Meter.ReadMeterType(ref meterType))
-                            {
-                                dt.Rows[i]["colResult"] = "На связи";
-                                dt.Rows[i]["colMeterType"] = meterType;
-                            }
+                            dt.Rows[i]["colResult"] = "На связи";
+                            dt.Rows[i]["colMeterType"] = meterType;
 
-                            if (Meter.ReadSerialNumber(ref meterType))
-                            {
-                                dt.Rows[i]["colReadSN"] = meterType;
-                            }
-                            else
-                            {
-                                WriteToLog("Не определен тип счетчика");
-                            }
-
-                            bool isWater = false;
                             if (meterType == "voda_rs485" || meterType == "pulsarM")
                                 isWater = true;
+                        }
 
-                            List<byte> typesList = new List<byte>();
+                        if (Meter.ReadSerialNumber(ref meterType))
+                        {
+                            dt.Rows[i]["colReadSN"] = meterType;
+                        }
+                        else
+                        {
+                            WriteToLog("Не определен sn");
+                        }
 
-                            if (!isWater)
-                            { 
-                                typesList.Add(3); //t pod
-                                typesList.Add(4); //t obr
-                                typesList.Add(7); //energy
-                                typesList.Add(8); //volume
-                                Meter.SetTypesForRead(typesList);
 
-                                string constDbl = "0.#######"; 
+                        List<byte> typesList = new List<byte>();
 
-                                Values val = new Values();
-                                if (Meter.ReadCurrentValues(ref val))
-                                {
-                                    dt.Rows[i]["colTempPod"] = val.listRV[0].value;
-                                    dt.Rows[i]["colTempObr"] = val.listRV[1].value;
-                                    dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
-                                    dt.Rows[i]["colVolume"] = val.listRV[3].value;
-                                }
-                            }
-                            else
+                        if (!isWater)
+                        { 
+                            typesList.Add(3); //t pod
+                            typesList.Add(4); //t obr
+                            typesList.Add(7); //energy
+                            typesList.Add(8); //volume
+                            Meter.SetTypesForRead(typesList);
+
+                            string constDbl = "0.#######"; 
+
+                            Values val = new Values();
+                            if (Meter.ReadCurrentValues(ref val))
                             {
-                                typesList.Add(1); //1 канал
-                                Meter.SetTypesForRead(typesList);
-
-                                Values val = new Values();
-                                if (Meter.ReadCurrentValues(ref val))
-                                {
-                                    dt.Rows[i]["colVolume"] = val.listRV[0].value;
-                                }
-                            }
-
-
-                            string timeOn = "";
-                            if (Meter.ReadTimeOn(ref timeOn))
-                            {
-                                dt.Rows[i]["colTime"] = timeOn;
-                            }
-                            if (Meter.ReadTimeOnErr(ref timeOn))
-                            {
-                                dt.Rows[i]["colTimeErr"] = timeOn;
+                                dt.Rows[i]["colTempPod"] = val.listRV[0].value;
+                                dt.Rows[i]["colTempObr"] = val.listRV[1].value;
+                                dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
+                                dt.Rows[i]["colVolume"] = val.listRV[3].value;
                             }
                         }
                         else
-                        if (cfgId == 0)
-                            { 
-                            float readVal = -1;
-                            if (Meter.ReadDailyValues(DateTime.Now.Date, 1, 1, ref readVal))
-                            {
-                                dt.Rows[i]["colResult"] = readVal;
+                        {
+                            WriteToLog("Water == true");
+                            typesList.Add(1); //1 канал
+                            Meter.SetTypesForRead(typesList);
 
-                            }
-                            else
+                            Values val = new Values();
+                            if (Meter.ReadCurrentValues(ref val))
                             {
-                                dt.Rows[i]["colResult"] = -1;
-                                goto PREEND;
+                                dt.Rows[i]["colVolume"] = val.listRV[0].value;
                             }
                         }
-            
 
+
+                        string timeOn = "";
+                        if (Meter.ReadTimeOn(ref timeOn))
+                        {
+                            dt.Rows[i]["colTime"] = timeOn;
+                        }
+                        if (Meter.ReadTimeOnErr(ref timeOn))
+                        {
+                            dt.Rows[i]["colTimeErr"] = timeOn;
+                        }
+                        
                     }
                     catch (Exception ex)
                     {

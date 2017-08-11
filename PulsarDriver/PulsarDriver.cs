@@ -31,6 +31,38 @@ namespace Drivers.PulsarDriver
             m_listTypesForRead.Clear();
         }
 
+        private PulsarMeterTypes? meterType = null;
+        private bool GetValueFromBytesByMeterType(byte[] data, int startIndexMult, out double val)
+        {
+            val = -1f;
+            if (meterType == null)
+            {
+                string tmpMeterType = "";
+                if (!this.ReadMeterType(ref tmpMeterType))
+                    meterType = PulsarMeterTypes.kompaktniy_teplo_v3;
+            }
+
+            if (meterType == PulsarMeterTypes.pulsarM)
+            {
+                //согласно документации
+                val = (double)BitConverter.ToInt32(data, 6 + startIndexMult * 4) / 1000;
+            }
+            else if (meterType == PulsarMeterTypes.voda_rs485)
+            {
+                val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+            }
+            else if (meterType == PulsarMeterTypes.kompaktniy_teplo_v3)
+            {
+                val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+            }
+
+            val = Math.Round(val, 7);
+
+            if (val > -1) return true;
+            else return false;
+        }
+
+
         public bool ReadCurrentValues(ref Values values)
         {
             m_length_cmd = 0;
@@ -144,11 +176,11 @@ namespace Drivers.PulsarDriver
                             RecordValue recordValue;
                             recordValue.type = m_listTypesForRead[i];
                             recordValue.fine_state = true;
-                            recordValue.value = 0;
-                                // recordValue.value = Math.Round(BitConverter.ToDouble(in_buffer, 6 + i * 8), 4);
-                                WriteToLog("Значение до округ: " + BitConverter.ToSingle(in_buffer, 6 + i * 4));
-                                recordValue.value = Math.Round(BitConverter.ToSingle(in_buffer, 6 + i * 4), 7);
-                            recordValue.fine_state = true;
+                            recordValue.value = -1;
+
+                            GetValueFromBytesByMeterType(in_buffer, i, out recordValue.value);
+
+
                             values.listRV.Add(recordValue);
 
                             WriteToLog("Значение: " + recordValue.value);
@@ -370,7 +402,7 @@ namespace Drivers.PulsarDriver
                                             else
                                             {
                                                 recordValue.fine_state = true;
-                                                recordValue.value = Math.Round(BitConverter.ToSingle(temp_buff, 0), 7);
+                                                GetValueFromBytesByMeterType(temp_buff, 0, out recordValue.value);
                                             }
 
                                             //WriteToLog("value=" + recordValue.value.ToString());
@@ -1049,6 +1081,7 @@ namespace Drivers.PulsarDriver
                             uint swVersion = BitConverter.ToUInt16(in_buffer, stInd);
                             if (Enum.IsDefined(typeof(PulsarMeterTypes), (int)swVersion))
                             {
+                                this.meterType = (PulsarMeterTypes)(int)swVersion;
                                 softwareVersion = Enum.GetName(typeof(PulsarMeterTypes), (int)swVersion);
                             }
                             else
