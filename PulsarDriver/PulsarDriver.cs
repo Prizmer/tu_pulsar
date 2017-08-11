@@ -32,7 +32,7 @@ namespace Drivers.PulsarDriver
         }
 
         private PulsarMeterTypes? meterType = null;
-        private bool GetValueFromBytesByMeterType(byte[] data, int startIndexMult, out double val)
+        private bool GetValueFromBytesByMeterType(byte[] data, int startIndexMult, out double val, bool archives = false)
         {
             val = -1f;
             if (meterType == null)
@@ -47,15 +47,19 @@ namespace Drivers.PulsarDriver
                 if (meterType == PulsarMeterTypes.pulsarM)
                 {
                     //согласно документации
-                    val = (double)BitConverter.ToInt32(data, 6 + startIndexMult * 4) / 1000;
+                    if (!archives) val = (double)BitConverter.ToInt32(data, 6 + startIndexMult * 4) / 1000;
+                    else val = (double)BitConverter.ToInt32(data, 0) / 1000;
                 }
                 else if (meterType == PulsarMeterTypes.voda_rs485)
                 {
-                    val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+                    if (!archives) val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+                    else val = BitConverter.ToSingle(data, 0); 
                 }
                 else if (meterType == PulsarMeterTypes.kompaktniy_teplo_v3)
                 {
-                    val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+                   if (!archives) val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
+                   else val = BitConverter.ToSingle(data, 0);
+
                 }
             }catch(Exception ex)
             {
@@ -410,7 +414,7 @@ namespace Drivers.PulsarDriver
                                             else
                                             {
                                                 recordValue.fine_state = true;
-                                                GetValueFromBytesByMeterType(temp_buff, 0, out recordValue.value);
+                                                GetValueFromBytesByMeterType(temp_buff, 0, out recordValue.value, true);
                                             }
 
                                             //WriteToLog("value=" + recordValue.value.ToString());
