@@ -150,7 +150,7 @@ namespace Drivers.PulsarDriver
                             recordValue.fine_state = true;
                             values.listRV.Add(recordValue);
 
-                            //WriteToLog("Значение: " + recordValue.value);
+                            WriteToLog("Значение: " + recordValue.value);
                         }
 
                         return true;
