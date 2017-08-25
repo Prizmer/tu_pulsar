@@ -188,15 +188,15 @@ namespace Drivers.PulsarDriver
                         {
                             RecordValue recordValue;
                             recordValue.type = m_listTypesForRead[i];
-                            recordValue.fine_state = true;
+                            recordValue.fine_state = false;
                             recordValue.value = -1;
 
                             if (!GetValueFromBytesByMeterType(in_buffer, i, out recordValue.value))
                                 return false;
 
+                            recordValue.fine_state = true;
 
                             values.listRV.Add(recordValue);
-
                             WriteToLog("Значение: " + recordValue.value);
                         }
 
@@ -412,8 +412,8 @@ namespace Drivers.PulsarDriver
                             {
                                 RecordValue recordValue;
                                 recordValue.type = m_listTypesForRead[t];
-                                recordValue.fine_state = true;
-                                recordValue.value = 0;
+                                recordValue.fine_state = false;
+                                recordValue.value = -1;
 
                                 int data_elements_count = (packet_length - 10 - 4 - 6) / 4;
 
@@ -439,22 +439,21 @@ namespace Drivers.PulsarDriver
                                                 temp_buff[b] = in_buffer[6 + 4 + 6 + d * 4 + b];
                                             }
 
-                                            recordValue.fine_state = true;
                                             if ((temp_buff[0] == 0xF0 || temp_buff[0] == 0xF1) && temp_buff[1] == 0xFF && temp_buff[2] == 0xFF && temp_buff[3] == 0xFF)
                                             {
-
-                                                recordValue.value = 0;
+                                                recordValue.value = -1;
                                             }
                                             else
                                             {
-                                                recordValue.fine_state = true;
                                                 if (!GetValueFromBytesByMeterType(temp_buff, 0, out recordValue.value, true)){
                                                     return false;
                                                 }
+                                                recordValue.fine_state = true;
                                             }
 
                                             //WriteToLog("value=" + recordValue.value.ToString());
 
+                                            
                                             values.listRV.Add(recordValue);
                                         }
                                     }
@@ -1294,7 +1293,7 @@ namespace Drivers.PulsarDriver
                 {
                     RecordValue rv = vals.listRV[vals.listRV.Count - 1];
                     recordValue = (float)rv.value;
-                    return true;
+                    return rv.fine_state;
                 }
             }
             WriteToLog("ReadCurrentValues: невозможно считать текущее значение для параметра " + param.ToString());
@@ -1326,7 +1325,7 @@ namespace Drivers.PulsarDriver
                 {
                     RecordValue rv = vals.listRV[vals.listRV.Count - 1];
                     recordValue = (float)rv.value;
-                    return true;
+                    return rv.fine_state;
                 }
             }
 
@@ -1347,7 +1346,7 @@ namespace Drivers.PulsarDriver
                 {
                     RecordValue rv = vals.listRV[vals.listRV.Count - 1];
                     recordValue = (float)rv.value;
-                    return true;
+                    return rv.fine_state;
                 }
             }
 
