@@ -131,7 +131,7 @@ namespace elfextendedapp
             const string METER_WAIT = "Ждите";
             const string REPEAT_REQUEST = "Повтор";
 
-            const string FORM_TEXT_DEFAULT = "Пульсар М - программа инициализации v.1.0";
+            const string FORM_TEXT_DEFAULT = "Пульсар - группа v.2.0";
             const string FORM_TEXT_DEMO_OFF = " - демо режим ОТКЛЮЧЕН";
             const string FORM_TEXT_DEV_ON = " - режим разработчика";
 
@@ -314,6 +314,15 @@ namespace elfextendedapp
             
             meterPinged += new EventHandler(Form1_meterPinged);
             pollingEnd += new EventHandler(Form1_pollingEnd);
+
+            richTextBox1.Clear();
+            richTextBox1.Text += "Поддерживаемые версии:\n";
+
+            foreach (string s in Enum.GetNames(typeof(PulsarMeterTypes)))
+            {
+                richTextBox1.Text += s +  ";\n";
+            }
+     
         }
 
         void numericUpDownComWriteTimeout_ValueChanged(object sender, EventArgs e)
