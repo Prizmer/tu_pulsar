@@ -55,7 +55,7 @@ namespace Drivers.PulsarDriver
                     if (!archives) val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
                     else val = BitConverter.ToSingle(data, 0); 
                 }
-                else if (meterType == PulsarMeterTypes.kompaktniy_teplo_v3)
+                else if (meterType == PulsarMeterTypes.kompaktniy_teplo_v3 || meterType == PulsarMeterTypes.kompaktniy_teplo_v4)
                 {
                    if (!archives) val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
                    else val = BitConverter.ToSingle(data, 0);
@@ -1388,6 +1388,7 @@ namespace Drivers.PulsarDriver
     public enum PulsarMeterTypes
     {
         kompaktniy_teplo_v3 = 0x010F,
+        kompaktniy_teplo_v4 = 0x0121,
         voda_rs485 = 0x62,
         pulsarM = 0x0104
     }
