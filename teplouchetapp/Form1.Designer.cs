@@ -425,7 +425,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(56, 20);
             this.numericUpDown1.TabIndex = 54;
             this.numericUpDown1.Value = new decimal(new int[] {
-            6,
+            1,
             0,
             0,
             0});
@@ -457,7 +457,7 @@
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(43, 20);
             this.textBoxPort.TabIndex = 54;
-            this.textBoxPort.Text = "2003";
+            this.textBoxPort.Text = "3003";
             // 
             // textBoxIp
             // 
@@ -466,7 +466,7 @@
             this.textBoxIp.Name = "textBoxIp";
             this.textBoxIp.Size = new System.Drawing.Size(75, 20);
             this.textBoxIp.TabIndex = 53;
-            this.textBoxIp.Text = "192.168.23.22";
+            this.textBoxIp.Text = "192.168.23.32";
             // 
             // richTextBox1
             // 
@@ -498,7 +498,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(135, 20);
             this.textBox1.TabIndex = 49;
-            this.textBox1.Text = "226023";
+            this.textBox1.Text = "140923";
             // 
             // pictureBoxLogo
             // 
