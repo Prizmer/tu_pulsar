@@ -42,6 +42,8 @@ namespace Drivers.PulsarDriver
                     meterType = PulsarMeterTypes.kompaktniy_teplo_v3;
             }
 
+            WriteToLog("GetValueFromBytesByMeterType MeterType: " + meterType.Value);
+
             try
             { 
                 if (meterType == PulsarMeterTypes.pulsarM)
@@ -445,9 +447,13 @@ namespace Drivers.PulsarDriver
                                             }
                                             else
                                             {
+                                                WriteToLog("ReadArchives: " + BitConverter.ToString(temp_buff));
+
                                                 if (!GetValueFromBytesByMeterType(temp_buff, 0, out recordValue.value, true)){
                                                     return false;
                                                 }
+                                  
+
                                                 recordValue.fine_state = true;
                                             }
 
