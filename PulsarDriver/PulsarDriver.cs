@@ -46,8 +46,8 @@ namespace Drivers.PulsarDriver
 
             try
             { 
-                if (meterType == PulsarMeterTypes.pulsarM)
-                {
+                if (meterType == PulsarMeterTypes.pulsarM || meterType == PulsarMeterTypes.voda_v6)
+                { 
                     //согласно документации
                     if (!archives) val = (double)BitConverter.ToInt32(data, 6 + startIndexMult * 4) / 1000;
                     else val = (double)BitConverter.ToInt32(data, 0) / 1000;
@@ -1395,6 +1395,7 @@ namespace Drivers.PulsarDriver
     {
         kompaktniy_teplo_v3 = 0x010F,
         kompaktniy_teplo_v4 = 0x0121,
+        voda_v6 = 0x0129,
         voda_rs485 = 0x62,
         pulsarM = 0x0104
     }
