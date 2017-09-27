@@ -319,6 +319,8 @@ namespace Drivers.PulsarDriver
 
             m_cmd = new byte[out_packet_length];
 
+            //WriteToLog("ReadArchive: m_listTypesForRead.Count: " + m_listTypesForRead.Count);
+
             for (int t = 0; t < m_listTypesForRead.Count; t++)
             {
                 m_length_cmd = 0;
@@ -419,7 +421,8 @@ namespace Drivers.PulsarDriver
 
                                 int data_elements_count = (packet_length - 10 - 4 - 6) / 4;
 
-                                //WriteToLog("type archive=" + type.ToString() + "; data_elements_count=" + data_elements_count.ToString() + "; Date=" + date.ToShortDateString());
+                                WriteToLog("ReadArchive: type archive=" + type.ToString() + "; data_elements_count=" + data_elements_count.ToString() + "; Date=" + date.ToShortDateString());
+                                WriteToLog("ReadArchive: принятое: " + BitConverter.ToString(in_buffer));
 
                                 if (data_elements_count > 0)
                                 {
@@ -443,7 +446,10 @@ namespace Drivers.PulsarDriver
 
                                             if ((temp_buff[0] == 0xF0 || temp_buff[0] == 0xF1) && temp_buff[1] == 0xFF && temp_buff[2] == 0xFF && temp_buff[3] == 0xFF)
                                             {
+                                                WriteToLog("ReadArchives: tempBuf" + BitConverter.ToString(temp_buff) + " - в данном диапазоне дат архивации не проводилось или запрашиваемый период более глубины архива согласно документации.");
+                                                WriteToLog("ReadArchives: дата: " + date);
                                                 recordValue.value = -1;
+                                                return false;
                                             }
                                             else
                                             {
@@ -462,13 +468,39 @@ namespace Drivers.PulsarDriver
                                             
                                             values.listRV.Add(recordValue);
                                         }
+                                    } else
+                                    {
+                                        WriteToLog(String.Format("ReadArchive: дата архива  {0} не совпадает с требуемой {1}",
+                                           iyear + "-" + imon + "-" + iday, date));
                                     }
                                 }
+                                else
+                                {
+                                    WriteToLog(String.Format("ReadArchive: data_elements_count == 0"));
+                                }
+                            }
+                            else
+                            {
+                                WriteToLog(String.Format("ReadArchive: не совпадает ID в команде {0} в ответе {1}",
+                                    BitConverter.ToString(m_cmd), BitConverter.ToString(in_buffer)));
                             }
                         }
+                        else
+                        {
+                            WriteToLog(String.Format("ReadArchive: не совпадает CRC {0} в ответе {1}",
+                                BitConverter.ToString(crc16), BitConverter.ToString(in_buffer)));
+                        }
+                    } else
+                    {
+                       WriteToLog(String.Format("ReadArchive: не найдена команда {0} в ответе {1}",
+                           BitConverter.ToString(m_cmd), BitConverter.ToString(in_buffer)));
                     }
+                } else
+                {
+                    WriteToLog(String.Format("ReadArchive: WriteReadData на команду {0} вернул {1}",
+                        BitConverter.ToString(m_cmd), BitConverter.ToString(in_buffer)));
                 }
-            }
+            } 
 
             return true;
         }
@@ -1356,7 +1388,7 @@ namespace Drivers.PulsarDriver
                 }
             }
 
-            WriteToLog("ReadMonthlyValues: невозможно считать текущее значение для параметра " + param.ToString());
+            WriteToLog("ReadDailyValues: невозможно считать текущее значение для параметра " + param.ToString());
             return false;
         }
 
