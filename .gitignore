@@ -16,3 +16,4 @@ obj
 /PulsarDriver/bin/Debug/*.pdb
 /teplouchetapp/bin/Debug/elfextended.vshost.exe.config
 /teplouchetapp/bin/Debug/elfextendedapp.vshost.exe.config
+/.vs

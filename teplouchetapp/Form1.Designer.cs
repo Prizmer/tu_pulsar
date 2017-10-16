@@ -53,7 +53,6 @@
             this.numericUpDownComWriteTimeout = new System.Windows.Forms.NumericUpDown();
             this.checkBoxTcp = new System.Windows.Forms.CheckBox();
             this.btnIndPollDaily = new System.Windows.Forms.Button();
-            this.btnGetMetersTable = new System.Windows.Forms.Button();
             this.btnIndPollCurrent = new System.Windows.Forms.Button();
             this.cbFromFileTcp = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -344,19 +343,6 @@
             this.btnIndPollDaily.UseVisualStyleBackColor = true;
             this.btnIndPollDaily.Click += new System.EventHandler(this.btnIndPollDaily_Click);
             // 
-            // btnGetMetersTable
-            // 
-            this.btnGetMetersTable.Enabled = false;
-            this.btnGetMetersTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGetMetersTable.Location = new System.Drawing.Point(5, 36);
-            this.btnGetMetersTable.Margin = new System.Windows.Forms.Padding(2);
-            this.btnGetMetersTable.Name = "btnGetMetersTable";
-            this.btnGetMetersTable.Size = new System.Drawing.Size(83, 25);
-            this.btnGetMetersTable.TabIndex = 52;
-            this.btnGetMetersTable.Text = "Приборы";
-            this.toolTip1.SetToolTip(this.btnGetMetersTable, "Выполняется только проверка связи без получения каких-либо данных со счетчика");
-            this.btnGetMetersTable.UseVisualStyleBackColor = true;
-            // 
             // btnIndPollCurrent
             // 
             this.btnIndPollCurrent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -542,7 +528,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 444);
             this.Controls.Add(this.cbJustRead);
-            this.Controls.Add(this.btnGetMetersTable);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.pictureBoxLogo);
             this.Controls.Add(this.groupBox1);
@@ -613,7 +598,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDownComWriteTimeout;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnGetMetersTable;
         private System.Windows.Forms.CheckBox cbJustRead;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button btnIndPollCurrent;

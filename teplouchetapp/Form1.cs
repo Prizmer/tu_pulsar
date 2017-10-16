@@ -1296,6 +1296,16 @@ namespace elfextendedapp
         private void checkBoxTcp_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
+            if (cb.Checked)
+            {
+                comboBoxComPorts.Enabled = false;
+                numericUpDownComReadTimeout.Enabled = false;
+            }
+            else
+            {
+                comboBoxComPorts.Enabled = true;
+                numericUpDownComReadTimeout.Enabled = true;
+            }
             setVirtualSerialPort();
         }
 
