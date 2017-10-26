@@ -301,8 +301,8 @@ namespace elfextendedapp
             ofd1.FileName = "FactoryNumbersTable";
             sfd1.FileName = ofd1.FileName;
 
-            if (!refreshSerialPortComboBox()) return;
-            if (!setVirtualSerialPort())  return;
+            refreshSerialPortComboBox();
+            setVirtualSerialPort();
             if (!setXlsParser()) return;
 
             cbJustRead.Checked = true;
