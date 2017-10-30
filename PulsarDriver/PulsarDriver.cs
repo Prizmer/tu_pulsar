@@ -1201,11 +1201,13 @@ namespace Drivers.PulsarDriver
                                 {
                                     this.meterType = (PulsarMeterTypes)(int)swVersion;
                                     softwareVersion = Enum.GetName(typeof(PulsarMeterTypes), (int)swVersion);
+                                    return true;
                                 }
                                 else
                                 {
                                     softwareVersion = swVersion.ToString();
                                     WriteToLog("ReadMeterType: модели счетчика типа " + swVersion + " нет в перечислении PulsarMeterTypes");
+                                    return false;
                                 }
                             }
                             catch (Exception ex)
@@ -1215,7 +1217,7 @@ namespace Drivers.PulsarDriver
                             }
 
                             //WriteToLog("Серийник: " + serial_number);
-                            return true;
+                  
                         }
                         else
                         {
