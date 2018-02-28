@@ -239,7 +239,7 @@ namespace Drivers.PulsarDriver
                 return false;
             }
 
-            if (data.Length > 5 && data.Length < data[5])
+            if (data.Length > 5 && data.Length < (data[5]))
             {
                 WriteToLog(methodName + ": сообщение должно быть минимум - " + data[5] + " байт, а пришло лишь " + data.Length);
                 WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
@@ -599,29 +599,10 @@ namespace Drivers.PulsarDriver
                 byte[] array = new byte[queue.Count];
                 array = queue.ToArray();
 
-                // адрес
-                byte[] adr = new byte[4];
-                Int2BCD((int)m_address, adr);
-
-                for (int i = 0; i < array.Length; i++)
-                {
-                    if (array[i] == adr[0] &&
-                        array[i + 1] == adr[1] &&
-                        array[i + 2] == adr[2] &&
-                        array[i + 3] == adr[3]
-                        )
-                    {
-                        for (int j = 0; j < m_length_cmd; j++)
-                        {
-                            if (array[i + j] != m_cmd[j])
-                            {
-                                return i;
-                            }
-                        }
-                    }
-                }
-
-                throw new ApplicationException("Несовпадение байт в пакете");
+                if (CheckReceivedBytes(array))
+                    return 1;
+                else
+                    return -1;
             }
             catch
             {
