@@ -245,12 +245,12 @@
             this.numericUpDownComReadTimeout.Location = new System.Drawing.Point(135, 12);
             this.numericUpDownComReadTimeout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDownComReadTimeout.Maximum = new decimal(new int[] {
-            2000,
+            1600,
             0,
             0,
             0});
             this.numericUpDownComReadTimeout.Minimum = new decimal(new int[] {
-            600,
+            400,
             0,
             0,
             0});
@@ -259,7 +259,7 @@
             this.numericUpDownComReadTimeout.TabIndex = 45;
             this.toolTip1.SetToolTip(this.numericUpDownComReadTimeout, "Время ожидания ответа одного счетчика");
             this.numericUpDownComReadTimeout.Value = new decimal(new int[] {
-            1000,
+            800,
             0,
             0,
             0});
@@ -362,7 +362,7 @@
             // 
             this.cbFromFileTcp.AutoSize = true;
             this.cbFromFileTcp.Location = new System.Drawing.Point(333, 81);
-            this.cbFromFileTcp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbFromFileTcp.Margin = new System.Windows.Forms.Padding(4);
             this.cbFromFileTcp.Name = "cbFromFileTcp";
             this.cbFromFileTcp.Size = new System.Drawing.Size(94, 21);
             this.cbFromFileTcp.TabIndex = 61;
@@ -410,7 +410,7 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(9, 74);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(75, 22);
             this.numericUpDown1.TabIndex = 54;
@@ -516,7 +516,7 @@
             // 
             this.cbJustRead.AutoSize = true;
             this.cbJustRead.Location = new System.Drawing.Point(383, 50);
-            this.cbJustRead.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbJustRead.Margin = new System.Windows.Forms.Padding(4);
             this.cbJustRead.Name = "cbJustRead";
             this.cbJustRead.Size = new System.Drawing.Size(79, 21);
             this.cbJustRead.TabIndex = 53;

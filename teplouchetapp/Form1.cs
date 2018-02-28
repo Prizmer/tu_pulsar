@@ -117,7 +117,7 @@ namespace elfextendedapp
                     buttonExport.Enabled = false;
                     label1.Enabled = false;
                     buttonStop.Enabled = false;
-                    numericUpDownComReadTimeout.Enabled = false;
+                    //numericUpDownComReadTimeout.Enabled = false;
                     checkBoxPollOffline.Enabled = true;
                 }
                 else
@@ -1176,7 +1176,7 @@ namespace elfextendedapp
 
         private void numericUpDownComReadTimeout_ValueChanged(object sender, EventArgs e)
         {
-            setVirtualSerialPort();
+           // setVirtualSerialPort();
         }
 
         private void checkBoxPollOffline_CheckedChanged(object sender, EventArgs e)
@@ -1313,7 +1313,7 @@ namespace elfextendedapp
             if (cb.Checked)
             {
                 comboBoxComPorts.Enabled = false;
-                numericUpDownComReadTimeout.Enabled = false;
+                //numericUpDownComReadTimeout.Enabled = false;
             }
             else
             {
