@@ -33,6 +33,18 @@ namespace elfextendedapp
 
             this.Text = FORM_TEXT_DEFAULT;
 
+
+            var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    this.listBox1.Items.Add(ip.ToString());
+                }
+            }
+
+            this.listBox1.SelectedIndex = 0;
+
             DeveloperMode = true;
             if (DeveloperMode) this.Height -= groupBox1.Height;
 
@@ -226,7 +238,7 @@ namespace elfextendedapp
                 {
                     //TODO: сделать это подсосом из xml
                     NameValueCollection loadedAppSettings = new NameValueCollection();
-                    loadedAppSettings.Add("localEndPointIp", "192.168.23.1");
+                    loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
 
                     Vp = new TcpipPort(textBoxIp.Text, int.Parse(textBoxPort.Text), write_timeout, read_timeout, 50, loadedAppSettings);
                 }
@@ -301,6 +313,8 @@ namespace elfextendedapp
             ofd1.FileName = "FactoryNumbersTable";
             sfd1.FileName = ofd1.FileName;
 
+
+
             refreshSerialPortComboBox();
             setVirtualSerialPort();
             if (!setXlsParser()) return;
@@ -322,7 +336,7 @@ namespace elfextendedapp
             {
                 richTextBox1.Text += s +  ";\n";
             }
-     
+
         }
 
         void numericUpDownComWriteTimeout_ValueChanged(object sender, EventArgs e)
