@@ -746,11 +746,11 @@ namespace elfextendedapp
 
                         if (cbFromFileTcp.Checked)
                         {
-                            //TODO: сделать это подсосом из xml
-                            NameValueCollection loadedAppSettings = new NameValueCollection();
-                            loadedAppSettings.Add("localEndPointIp", "192.168.23.1");
+                             NameValueCollection loadedAppSettings = new NameValueCollection();
+                            loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
 
                             Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][4].ToString()), 600, 1000, 50, loadedAppSettings);
+
                         }
 
                         Meter.Init(address, "", Vp);
