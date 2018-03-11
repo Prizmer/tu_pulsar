@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -13,12 +10,10 @@ using ExcelLibrary.SpreadSheet;
 using System.Configuration;
 using System.Threading;
 using System.Diagnostics;
-using System.Globalization;
 
 using System.Collections.Specialized;
-//using System.Configuration.Assemblies;
 
-using PollingLibraries.LibLogger;
+
 using Drivers.LibMeter;
 using Drivers.PulsarDriver;
 using PollingLibraries.LibPorts;
@@ -33,7 +28,7 @@ namespace elfextendedapp
 
             this.Text = FORM_TEXT_DEFAULT;
 
-
+            // заполним список локальными ip адресами
             var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
             foreach (var ip in host.AddressList)
             {
@@ -43,16 +38,19 @@ namespace elfextendedapp
                 }
             }
 
-            this.listBox1.SelectedIndex = 0;
+            if (listBox1.Items.Count > 0)
+                this.listBox1.SelectedIndex = 0;
 
             DeveloperMode = true;
-            if (DeveloperMode) this.Height -= groupBox1.Height;
+            if (DeveloperMode) this.Height -= gbAdditionalSettings.Height;
+
+
+
+            rbTcp.Checked = true;
 
             InProgress = false;
-
             InputDataReady = false;
 
-            checkBoxTcp.Checked = true;
         }
 
         //при опросе или тесте связи
@@ -68,30 +66,26 @@ namespace elfextendedapp
                 {
                     toolStripProgressBar1.Value = 0;
 
-                    comboBoxComPorts.Enabled = false;
                     buttonPoll.Enabled = false;
                     buttonPing.Enabled = false;
                     buttonImport.Enabled = false;
-                    label1.Enabled = false;
                     buttonExport.Enabled = false;
                     buttonStop.Enabled = true;
-                    numericUpDownComReadTimeout.Enabled = false;
                     checkBoxPollOffline.Enabled = false;
+                    btnApplyConnectionSettings.Enabled = false;
 
                     this.Text += FORM_TEXT_INPROCESS;
                 }
                 else
                 {
-                   // comboBoxComPorts.Enabled = true;
                     buttonPoll.Enabled = true;
                     buttonPing.Enabled = true;
                     buttonImport.Enabled = true;
                     buttonExport.Enabled = true;
-                    label1.Enabled = true;
                     buttonStop.Enabled = false;
-                  //  numericUpDownComReadTimeout.Enabled = true;
                     checkBoxPollOffline.Enabled = true;
                     dgv1.Enabled = true;
+                    btnApplyConnectionSettings.Enabled = true;
 
                     this.Text = this.Text.Replace(FORM_TEXT_INPROCESS, String.Empty);
                 }
@@ -110,28 +104,48 @@ namespace elfextendedapp
                 {
                     toolStripProgressBar1.Value = 0;
 
-                    comboBoxComPorts.Enabled = false;
                     buttonPoll.Enabled = false;
                     buttonPing.Enabled = false;
                     buttonImport.Enabled = true;
                     buttonExport.Enabled = false;
-                    label1.Enabled = false;
                     buttonStop.Enabled = false;
-                    //numericUpDownComReadTimeout.Enabled = false;
-                    checkBoxPollOffline.Enabled = true;
                 }
                 else
                 {
-                    //comboBoxComPorts.Enabled = true;
                     buttonPoll.Enabled = true;
                     //if (!PredefineImpulseInitialsMode) buttonPing.Enabled = true;
                     buttonImport.Enabled = true;
                     buttonExport.Enabled = true;
                     buttonStop.Enabled = false;
                     buttonPing.Enabled = true;
-                   // numericUpDownComReadTimeout.Enabled = true;
                    // if (!PredefineImpulseInitialsMode) checkBoxPollOffline.Enabled = true;
-                    label1.Enabled = true;
+                }
+            }
+        }
+
+        bool bTcpMode = true;
+        public bool TcpMode
+        {
+            get
+            {
+                return bTcpMode;
+            } 
+            set
+            {
+                bTcpMode = value;
+                if (value)
+                {
+                    textBoxIp.Enabled = true;
+                    textBoxPort.Enabled = true;
+
+                    comboBoxComPorts.Enabled = false;
+                }
+                else
+                {
+                    textBoxIp.Enabled = false;
+                    textBoxPort.Enabled = false;
+
+                    comboBoxComPorts.Enabled = true;
                 }
             }
         }
@@ -143,7 +157,7 @@ namespace elfextendedapp
             const string METER_WAIT = "Ждите";
             const string REPEAT_REQUEST = "Повтор";
 
-            const string FORM_TEXT_DEFAULT = "Пульсар - группа v.2.0";
+            const string FORM_TEXT_DEFAULT = "Пульсар - группа v.3.0";
             const string FORM_TEXT_DEMO_OFF = " - демо режим ОТКЛЮЧЕН";
             const string FORM_TEXT_DEV_ON = " - режим разработчика";
 
@@ -163,7 +177,8 @@ namespace elfextendedapp
         int factoryNumberColumnIndex = 4;
         int firstRowIndex = 2;
         
-        //предустановка значений
+        // предустановка значений - дефолтные значения на случай,
+        // если в xml файле их упустили
         int colIPIndex = 6;
         int colPortIndex = 7;
         int colChannelIndex = 3;
@@ -202,7 +217,7 @@ namespace elfextendedapp
                 }
                 else
                 {
-                    WriteToStatus("В системе не найдены доступные COM порты");
+                    // WriteToStatus("В системе не найдены доступные COM порты");
                     return false;
                 }
             }
@@ -213,7 +228,7 @@ namespace elfextendedapp
             }
         }
 
-        private bool setVirtualSerialPort()
+        private bool setVirtualPort()
         {
             try
             {
@@ -221,7 +236,7 @@ namespace elfextendedapp
                 ushort read_timeout = (ushort)numericUpDownComReadTimeout.Value;
                 ushort write_timeout = (ushort)numericUpDownComWriteTimeout.Value;
 
-                if (!checkBoxTcp.Checked)
+                if (rbCom.Checked)
                 {
                     SerialPort m_Port = new SerialPort(comboBoxComPorts.Items[comboBoxComPorts.SelectedIndex].ToString());
 
@@ -236,13 +251,11 @@ namespace elfextendedapp
                 }
                 else
                 {
-                    //TODO: сделать это подсосом из xml
                     NameValueCollection loadedAppSettings = new NameValueCollection();
                     loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
 
                     Vp = new TcpipPort(textBoxIp.Text, int.Parse(textBoxPort.Text), write_timeout, read_timeout, 50, loadedAppSettings);
                 }
-
 
 
                 uint mAddr = 0xFD;
@@ -251,11 +264,10 @@ namespace elfextendedapp
                 if (!initMeterDriver(mAddr, mPass, Vp)) return false;
 
                 //check vp settings
-                if (!checkBoxTcp.Checked)
+                if (rbCom.Checked)
                 {
                     SerialPort tmpSP = (SerialPort)Vp.GetPortObject();
-                        toolStripStatusLabel2.Text = String.Format("{0}-{1}-{2}-DTR({3})-RTimeout: {4}ms", tmpSP.PortName, tmpSP.BaudRate, tmpSP.Parity, tmpSP.DtrEnable, read_timeout);
-               
+                        toolStripStatusLabel2.Text = String.Format("{0}-{1}-{2}-DTR({3})-RTimeout: {4}ms", tmpSP.PortName, tmpSP.BaudRate, tmpSP.Parity, tmpSP.DtrEnable, read_timeout);               
                 }
                 else
                 {
@@ -279,9 +291,10 @@ namespace elfextendedapp
                 flatNumberColumnIndex = int.Parse(ConfigurationSettings.AppSettings["flatColumn"]) - 1;
                 factoryNumberColumnIndex = int.Parse(ConfigurationSettings.AppSettings["factoryColumn"]) - 1;
                 firstRowIndex = int.Parse(ConfigurationSettings.AppSettings["firstRow"]) - 1;
-                //предустановка значений
                 colIPIndex = int.Parse(ConfigurationSettings.AppSettings["colIPIndex"]) - 1;
                 colPortIndex = int.Parse(ConfigurationSettings.AppSettings["colPortIndex"]) - 1;
+
+                //предустановка значений
                 colChannelIndex = int.Parse(ConfigurationSettings.AppSettings["colChannelIndex"]) - 1;
                 colMeterNameIndex = int.Parse(ConfigurationSettings.AppSettings["colMeterNameIndex"]) - 1;
                 colPredValue = int.Parse(ConfigurationSettings.AppSettings["colPredValue"]) - 1;
@@ -303,45 +316,30 @@ namespace elfextendedapp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //byte[] data = new byte[] { 0x11, 0x08, 0x03, 0x00 };
-            //float val = BitConverter.ToSingle(data, 0);
-            //MessageBox.Show(val.ToString("0.############"));
-
             //setting up dialogs
             ofd1.Filter = "Excel files (*.xls) | *.xls";
             sfd1.Filter = ofd1.Filter;
             ofd1.FileName = "FactoryNumbersTable";
             sfd1.FileName = ofd1.FileName;
 
+            this.cbConfiguration.Items.Add("Многоканальные счетчики");
+            this.cbConfiguration.Items.Add("Вода");
+            this.cbConfiguration.SelectedIndex = 0;
 
 
             refreshSerialPortComboBox();
-            setVirtualSerialPort();
+            setVirtualPort();
             if (!setXlsParser()) return;
 
             cbJustRead.Checked = true;
 
-            //привязываются здесь, чтобы можно было выше задать значения без вызова обработчиков
-            comboBoxComPorts.SelectedIndexChanged += new EventHandler(comboBoxComPorts_SelectedIndexChanged);
-            numericUpDownComReadTimeout.ValueChanged +=new EventHandler(numericUpDownComReadTimeout_ValueChanged);
-            numericUpDownComWriteTimeout.ValueChanged += new EventHandler(numericUpDownComWriteTimeout_ValueChanged);
-            
             meterPinged += new EventHandler(Form1_meterPinged);
             pollingEnd += new EventHandler(Form1_pollingEnd);
 
             richTextBox1.Clear();
             richTextBox1.Text += "Поддерживаемые версии:\n";
-
             foreach (string s in Enum.GetNames(typeof(PulsarMeterTypes)))
-            {
                 richTextBox1.Text += s +  ";\n";
-            }
-
-        }
-
-        void numericUpDownComWriteTimeout_ValueChanged(object sender, EventArgs e)
-        {
-            setVirtualSerialPort();
         }
 
         DataTable dt = new DataTable("meters");
@@ -355,6 +353,8 @@ namespace elfextendedapp
         List<int> paramCodes = null;
         private void createMainTable(ref DataTable dt)
         {
+            cfgId = this.cbConfiguration.SelectedIndex;
+
             paramCodes = new List<int>();
 
             //creating columns for internal data table
@@ -374,10 +374,6 @@ namespace elfextendedapp
             column.ColumnName = "colResult";
 
  
-
-
-
-
             if (cfgId == 0)
             {
                 column = dt.Columns.Add();
@@ -430,7 +426,8 @@ namespace elfextendedapp
                     column.ColumnName = "colVal4";
 
                 }
-            } else if (cfgId == 1)
+            }
+            else if (cfgId == 1)
             {
                 if (cbFromFileTcp.Checked)
                 {
@@ -620,7 +617,8 @@ namespace elfextendedapp
                                 string strTmpPredVal = row_l.GetCell(colPredValue).Value == null ? "" : row_l.GetCell(colPredValue).Value.ToString().Replace(" ", "");
                                 dataRow[7] = strTmpPredVal;
                             }
-                        } else if (cfgId == 1)
+                        }
+                        else if (cfgId == 1)
                         {
                             if (cbFromFileTcp.Checked)
                             {
@@ -1017,9 +1015,6 @@ namespace elfextendedapp
                 setPreVals(pmaInp);
                 return;
             }
-
-
-
         }
 
 
@@ -1054,9 +1049,8 @@ namespace elfextendedapp
 
                         if (cbFromFileTcp.Checked)
                         {
-                            //TODO: сделать это подсосом из xml
                             NameValueCollection loadedAppSettings = new NameValueCollection();
-                            loadedAppSettings.Add("localEndPointIp", "192.168.23.1");
+                            loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
 
                             Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][4].ToString()), 600, 1000, 50, loadedAppSettings);
                         }
@@ -1075,7 +1069,7 @@ namespace elfextendedapp
                         } 
                         else
                         {
-                            dt.Rows[i]["colResult"] = "Ошибка";
+                            dt.Rows[i]["colResult"] = "Тип прибора";
                         }
 
                         if (Meter.ReadSerialNumber(ref meterType))
@@ -1167,16 +1161,6 @@ namespace elfextendedapp
 
             buttonStop.Enabled = false;
             dgv1.Enabled = false;
-        }
-
-        private void comboBoxComPorts_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            setVirtualSerialPort();
-        }
-
-        private void numericUpDownComReadTimeout_ValueChanged(object sender, EventArgs e)
-        {
-           // setVirtualSerialPort();
         }
 
         private void checkBoxPollOffline_CheckedChanged(object sender, EventArgs e)
@@ -1294,15 +1278,15 @@ namespace elfextendedapp
                 if (bDeveloperMode)
                 {
                     this.Text += FORM_TEXT_DEV_ON;
-                    this.Height = this.Height + groupBox1.Height;
-                    groupBox1.Visible = true;
+                    this.Height = this.Height + gbAdditionalSettings.Height;
+                    gbAdditionalSettings.Visible = true;
 
                 }
                 else
                 {
                     this.Text = this.Text.Replace(FORM_TEXT_DEV_ON, String.Empty);
-                    groupBox1.Visible = false;
-                    this.Height = this.Height - groupBox1.Height;
+                    gbAdditionalSettings.Visible = false;
+                    this.Height = this.Height - gbAdditionalSettings.Height;
                 }
             }
         }
@@ -1320,7 +1304,7 @@ namespace elfextendedapp
                 comboBoxComPorts.Enabled = true;
                 numericUpDownComReadTimeout.Enabled = true;
             }
-            setVirtualSerialPort();
+            setVirtualPort();
         }
 
 
@@ -1350,8 +1334,7 @@ namespace elfextendedapp
             }
         }
 
-
-
+ 
         private void btnIndPollInfo_Click(object sender, EventArgs e)
         {
             string serial = "", sw = "", mt = "";
@@ -1418,14 +1401,20 @@ namespace elfextendedapp
             }
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void richTextBox1_DoubleClick(object sender, EventArgs e)
         {
             richTextBox1.Clear();
+        }
+ 
+        private void btnApplyConnectionSettings_Click(object sender, EventArgs e)
+        {
+            this.setVirtualPort();
+        }
+
+        private void rbTcp_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rbSender = (RadioButton)sender;
+            this.TcpMode = rbSender.Checked;
         }
     }
 
