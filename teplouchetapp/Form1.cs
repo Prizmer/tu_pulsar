@@ -39,7 +39,13 @@ namespace elfextendedapp
             }
 
             if (listBox1.Items.Count > 0)
+            {
                 this.listBox1.SelectedIndex = 0;
+                this.selectedLocalIp = this.listBox1.SelectedItem.ToString();
+            }
+
+
+
 
             DeveloperMode = true;
             if (DeveloperMode) this.Height -= gbAdditionalSettings.Height;
@@ -149,6 +155,8 @@ namespace elfextendedapp
                 }
             }
         }
+
+        private string selectedLocalIp = "";
 
         #region Строковые постоянные 
 
@@ -745,10 +753,9 @@ namespace elfextendedapp
                         if (cbFromFileTcp.Checked)
                         {
                              NameValueCollection loadedAppSettings = new NameValueCollection();
-                            loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
+                            loadedAppSettings.Add("localEndPointIp", this.selectedLocalIp);
 
-                            Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][4].ToString()), 600, 1000, 50, loadedAppSettings);
-
+                            Vp = new TcpipPort(dt.Rows[i]["colIp"].ToString(), int.Parse(dt.Rows[i]["colPort"].ToString()), (ushort)numericUpDownComWriteTimeout.Value, (ushort)numericUpDownComReadTimeout.Value, 50, loadedAppSettings);
                         }
 
                         Meter.Init(address, "", Vp);
@@ -943,9 +950,11 @@ namespace elfextendedapp
 
                         Meter = new PulsarDriver();
                         uint address = uint.Parse(o.ToString());
+                        NameValueCollection loadedAppSettings = new NameValueCollection();
+                        loadedAppSettings.Add("localEndPointIp", this.selectedLocalIp);
                         string ip = dt.Rows[i]["colIp"].ToString();
                         int port = int.Parse(dt.Rows[i]["colPort"].ToString());
-                        Vp = new TcpipPort(ip, port, 400, 800, 10);
+                        Vp = new TcpipPort(ip, port,  (ushort)numericUpDownComWriteTimeout.Value, (ushort)numericUpDownComReadTimeout.Value, 10, loadedAppSettings);
                         Meter.Init(address, "", Vp);
 
                         int chan = int.Parse(dt.Rows[i]["colChannel"].ToString());
@@ -1050,9 +1059,9 @@ namespace elfextendedapp
                         if (cbFromFileTcp.Checked)
                         {
                             NameValueCollection loadedAppSettings = new NameValueCollection();
-                            loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
-
-                            Vp = new TcpipPort(dt.Rows[i][3].ToString(), int.Parse(dt.Rows[i][4].ToString()), 600, 1000, 50, loadedAppSettings);
+                            loadedAppSettings.Add("localEndPointIp", this.selectedLocalIp);
+                            int port = int.Parse(dt.Rows[i]["colPort"].ToString());
+                            Vp = new TcpipPort(dt.Rows[i]["colIp"].ToString(), port, (ushort)numericUpDownComWriteTimeout.Value,  (ushort)numericUpDownComReadTimeout.Value,  50, loadedAppSettings);
                         }
 
                         Meter.Init(address, "", Vp);
@@ -1415,6 +1424,11 @@ namespace elfextendedapp
         {
             RadioButton rbSender = (RadioButton)sender;
             this.TcpMode = rbSender.Checked;
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.selectedLocalIp = ((ListBox)sender).SelectedItem.ToString();
         }
     }
 

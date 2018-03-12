@@ -53,6 +53,7 @@
             this.btnIndPollCurrent = new System.Windows.Forms.Button();
             this.btnIndPollDaily = new System.Windows.Forms.Button();
             this.checkBoxPollOffline = new System.Windows.Forms.CheckBox();
+            this.cbConfiguration = new System.Windows.Forms.ComboBox();
             this.gbAdditionalSettings = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnIndPollInfo = new System.Windows.Forms.Button();
@@ -79,7 +80,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.textBoxIp = new System.Windows.Forms.TextBox();
-            this.cbConfiguration = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownComReadTimeout)).BeginInit();
@@ -361,6 +361,15 @@
             this.checkBoxPollOffline.UseVisualStyleBackColor = true;
             this.checkBoxPollOffline.CheckedChanged += new System.EventHandler(this.checkBoxPollOffline_CheckedChanged);
             // 
+            // cbConfiguration
+            // 
+            this.cbConfiguration.FormattingEnabled = true;
+            this.cbConfiguration.Location = new System.Drawing.Point(14, 98);
+            this.cbConfiguration.Name = "cbConfiguration";
+            this.cbConfiguration.Size = new System.Drawing.Size(234, 24);
+            this.cbConfiguration.TabIndex = 56;
+            this.toolTip1.SetToolTip(this.cbConfiguration, "Подгружаемый xml для счетчиков тепла или воды?");
+            // 
             // gbAdditionalSettings
             // 
             this.gbAdditionalSettings.Controls.Add(this.panel3);
@@ -401,6 +410,7 @@
             this.btnIndPollInfo.TabIndex = 62;
             this.btnIndPollInfo.Text = "О приборе";
             this.btnIndPollInfo.UseVisualStyleBackColor = true;
+            this.btnIndPollInfo.Click += new System.EventHandler(this.btnIndPollInfo_Click);
             // 
             // label8
             // 
@@ -574,6 +584,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(233, 84);
             this.listBox1.TabIndex = 70;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -653,15 +664,6 @@
             this.textBoxIp.Size = new System.Drawing.Size(99, 22);
             this.textBoxIp.TabIndex = 55;
             this.textBoxIp.Text = "192.168.23.32";
-            // 
-            // cbConfiguration
-            // 
-            this.cbConfiguration.FormattingEnabled = true;
-            this.cbConfiguration.Location = new System.Drawing.Point(14, 98);
-            this.cbConfiguration.Name = "cbConfiguration";
-            this.cbConfiguration.Size = new System.Drawing.Size(234, 24);
-            this.cbConfiguration.TabIndex = 56;
-            this.toolTip1.SetToolTip(this.cbConfiguration, "Подгружаемый xml для счетчиков тепла или воды?");
             // 
             // Form1
             // 
