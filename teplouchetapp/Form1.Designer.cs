@@ -273,7 +273,7 @@
             this.numericUpDownComReadTimeout.TabIndex = 59;
             this.toolTip1.SetToolTip(this.numericUpDownComReadTimeout, "Время ожидания ответа одного счетчика");
             this.numericUpDownComReadTimeout.Value = new decimal(new int[] {
-            800,
+            1200,
             0,
             0,
             0});
@@ -316,7 +316,7 @@
             this.toolTip1.SetToolTip(this.numericUpDownComWriteTimeout, "Время по прошествии которого происходит таймаут записи. Не используется в данной " +
         "версии.");
             this.numericUpDownComWriteTimeout.Value = new decimal(new int[] {
-            800,
+            500,
             0,
             0,
             0});
@@ -654,7 +654,7 @@
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(56, 22);
             this.textBoxPort.TabIndex = 56;
-            this.textBoxPort.Text = "3003";
+            this.textBoxPort.Text = "4001";
             // 
             // textBoxIp
             // 
@@ -663,7 +663,7 @@
             this.textBoxIp.Name = "textBoxIp";
             this.textBoxIp.Size = new System.Drawing.Size(99, 22);
             this.textBoxIp.TabIndex = 55;
-            this.textBoxIp.Text = "192.168.23.32";
+            this.textBoxIp.Text = "192.168.127.203";
             // 
             // Form1
             // 
