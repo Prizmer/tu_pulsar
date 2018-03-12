@@ -339,7 +339,7 @@ namespace elfextendedapp
             setVirtualPort();
             if (!setXlsParser()) return;
 
-            cbJustRead.Checked = true;
+           // cbJustRead.Checked = true;
 
             meterPinged += new EventHandler(Form1_meterPinged);
             pollingEnd += new EventHandler(Form1_pollingEnd);
@@ -539,16 +539,16 @@ namespace elfextendedapp
                 Worksheet workSheet = book.Worksheets[0];
 
               
-                if (book.Worksheets.Count > 1)
-                {
-                    string wshIndexStr = Prompt.ShowDialog("Укажите номер листа, начиная с 1", "Выберите лист");
-                    int wshIndex = 1;
-                    if (!int.TryParse(wshIndexStr, out wshIndex) || book.Worksheets.Count < wshIndex)
-                        MessageBox.Show("Введен неверный некорректный номер");
+                //if (book.Worksheets.Count > 1)
+                //{
+                //    string wshIndexStr = Prompt.ShowDialog("Укажите номер листа, начиная с 1", "Выберите лист");
+                //    int wshIndex = 1;
+                //    if (!int.TryParse(wshIndexStr, out wshIndex) || book.Worksheets.Count < wshIndex)
+                //        MessageBox.Show("Введен неверный некорректный номер");
           
-                    wshIndex--;
-                    workSheet = book.Worksheets[wshIndex];
-                }
+                //    wshIndex--;
+                //    workSheet = book.Worksheets[wshIndex];
+                //}
 
 
                 int rowsInFile = 0;
@@ -801,6 +801,12 @@ namespace elfextendedapp
 
                         }
 
+                        if (cbFromFileTcp.Checked)
+                        {
+                            Vp.Close();
+                            Thread.Sleep(50);
+                        }
+
                     }
                     catch (Exception ex)
                     {
@@ -994,6 +1000,12 @@ namespace elfextendedapp
                             }
                         }
 
+                        if (cbFromFileTcp.Checked)
+                        {
+                            Vp.Close();
+                            Thread.Sleep(50);
+                        }
+
                     }
                     catch (Exception ex)
                     {
@@ -1080,8 +1092,8 @@ namespace elfextendedapp
                             dt.Rows[i]["colResult"] = "На связи";
                             dt.Rows[i]["colMeterType"] = meterType;
 
-                            if (meterType == "voda_rs485" || meterType == "pulsarM")
-                                isWater = true;
+                          //  if (meterType == "voda_rs485" || meterType == "pulsarM")
+                              //  isWater = true;
                         } 
                         else
                         {
@@ -1100,49 +1112,70 @@ namespace elfextendedapp
 
                         List<byte> typesList = new List<byte>();
 
-                        if (!isWater)
-                        { 
-                            typesList.Add(3); //t pod
-                            typesList.Add(4); //t obr
-                            typesList.Add(7); //energy
-                            typesList.Add(8); //volume
-                            Meter.SetTypesForRead(typesList);
-
-                            string constDbl = "0.#######"; 
-
-                            Values val = new Values();
-                            if (Meter.ReadCurrentValues(ref val))
-                            {
-                                dt.Rows[i]["colTempPod"] = val.listRV[0].value;
-                                dt.Rows[i]["colTempObr"] = val.listRV[1].value;
-                                dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
-                                dt.Rows[i]["colVolume"] = val.listRV[3].value;
-                            }
-                        }
-                        else
+                        typesList.Add(1); //t pod
+                        typesList.Add(2); //t obr
+                        typesList.Add(3); //energy
+                        typesList.Add(4); //volume
+                        Meter.SetTypesForRead(typesList);
+                        Values val = new Values();
+                        if (Meter.ReadCurrentValues(ref val))
                         {
-                            WriteToLog("Water == true");
-                            typesList.Add(1); //1 канал
-                            Meter.SetTypesForRead(typesList);
+                            dt.Rows[i]["colTempPod"] = val.listRV[0].value;
+                            dt.Rows[i]["colTempObr"] = val.listRV[1].value;
+                            dt.Rows[i]["colEnergy"] = val.listRV[2].value;
+                            dt.Rows[i]["colVolume"] = val.listRV[3].value;
 
-                            Values val = new Values();
-                            if (Meter.ReadCurrentValues(ref val))
-                            {
-                                dt.Rows[i]["colVolume"] = val.listRV[0].value;
-                            }
                         }
 
+                        //if (!isWater)
+                        //{ 
+                        //    typesList.Add(3); //t pod
+                        //    typesList.Add(4); //t obr
+                        //    typesList.Add(7); //energy
+                        //    typesList.Add(8); //volume
+                        //    Meter.SetTypesForRead(typesList);
 
-                        string timeOn = "";
-                        if (Meter.ReadTimeOn(ref timeOn))
+                        //    string constDbl = "0.#######"; 
+
+                        //    Values val = new Values();
+                        //    if (Meter.ReadCurrentValues(ref val))
+                        //    {
+                        //        dt.Rows[i]["colTempPod"] = val.listRV[0].value;
+                        //        dt.Rows[i]["colTempObr"] = val.listRV[1].value;
+                        //        dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
+                        //        dt.Rows[i]["colVolume"] = val.listRV[3].value;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    WriteToLog("Water == true");
+                        //    typesList.Add(1); //1 канал
+                        //    Meter.SetTypesForRead(typesList);
+
+                        //    Values val = new Values();
+                        //    if (Meter.ReadCurrentValues(ref val))
+                        //    {
+                        //        dt.Rows[i]["colVolume"] = val.listRV[0].value;
+                        //    }
+                        //}
+
+
+                        //string timeOn = "";
+                        //if (Meter.ReadTimeOn(ref timeOn))
+                        //{
+                        //    dt.Rows[i]["colTime"] = timeOn;
+                        //}
+                        //if (Meter.ReadTimeOnErr(ref timeOn))
+                        //{
+                        //    dt.Rows[i]["colTimeErr"] = timeOn;
+                        //}
+
+                        if (cbFromFileTcp.Checked)
                         {
-                            dt.Rows[i]["colTime"] = timeOn;
+                            Vp.Close();
+                            Thread.Sleep(50);
                         }
-                        if (Meter.ReadTimeOnErr(ref timeOn))
-                        {
-                            dt.Rows[i]["colTimeErr"] = timeOn;
-                        }
-                        
+
                     }
                     catch (Exception ex)
                     {
@@ -1388,7 +1421,7 @@ namespace elfextendedapp
 
 
             float rVal = 0f;
-            if (pd.ReadDailyValues(DateTime.Now.Date, (ushort)numericUpDown1.Value, 1, ref rVal))
+            if (pd.ReadDailyValues(DateTime.Now.Date, (ushort)numericUpDown1.Value, (ushort)numericUpDown2.Value, ref rVal))
             {
                 richTextBox1.Text += rVal + ";\n";
             }
@@ -1407,7 +1440,7 @@ namespace elfextendedapp
 
 
             float rVal = 0f;
-            if (pd.ReadCurrentValues((ushort)numericUpDown1.Value, 1, ref rVal))
+            if (pd.ReadCurrentValues((ushort)numericUpDown1.Value, (ushort)numericUpDown2.Value, ref rVal))
             {
                 richTextBox1.Text += rVal + ";\n";
             }
