@@ -538,17 +538,17 @@ namespace elfextendedapp
 
                 Worksheet workSheet = book.Worksheets[0];
 
-              
-                //if (book.Worksheets.Count > 1)
-                //{
-                //    string wshIndexStr = Prompt.ShowDialog("Укажите номер листа, начиная с 1", "Выберите лист");
-                //    int wshIndex = 1;
-                //    if (!int.TryParse(wshIndexStr, out wshIndex) || book.Worksheets.Count < wshIndex)
-                //        MessageBox.Show("Введен неверный некорректный номер");
-          
-                //    wshIndex--;
-                //    workSheet = book.Worksheets[wshIndex];
-                //}
+
+                if (book.Worksheets.Count > 1)
+                {
+                    string wshIndexStr = Prompt.ShowDialog("Укажите номер листа, начиная с 1", "Выберите лист");
+                    int wshIndex = 1;
+                    if (!int.TryParse(wshIndexStr, out wshIndex) || book.Worksheets.Count < wshIndex)
+                        MessageBox.Show("Введен неверный некорректный номер");
+
+                    wshIndex--;
+                    workSheet = book.Worksheets[wshIndex];
+                }
 
 
                 int rowsInFile = 0;
