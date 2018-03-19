@@ -582,7 +582,7 @@ namespace elfextendedapp
 
                         object oFlatNumber = row_l.GetCell(flatNumberColumnIndex).Value;
                         int iFlatNumber = -1;
-                        if (oFlatNumber != null)
+                        if (oFlatNumber != null && oFlatNumber.ToString() != "")
                         {
                             string tmpStrNumb = oFlatNumber.ToString().Replace("Квартира ", "").Replace("Офис ", "");
                             strFlatPrevNumber = tmpStrNumb;
