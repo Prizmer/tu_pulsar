@@ -374,6 +374,8 @@
             // cbOnlyDateUpd
             // 
             this.cbOnlyDateUpd.AutoSize = true;
+            this.cbOnlyDateUpd.Checked = true;
+            this.cbOnlyDateUpd.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbOnlyDateUpd.Location = new System.Drawing.Point(14, 64);
             this.cbOnlyDateUpd.Name = "cbOnlyDateUpd";
             this.cbOnlyDateUpd.Size = new System.Drawing.Size(185, 21);
