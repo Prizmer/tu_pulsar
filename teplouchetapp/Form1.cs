@@ -1419,7 +1419,7 @@ namespace elfextendedapp
             string dateReadInfo = "Дата прибора не прочитана";
             DateTime meterDt = new DateTime();
             if (pd.ReadTime(ref meterDt))
-                dateReadInfo = "Дата прибора: " + Meter.ToString();
+                dateReadInfo = "Дата прибора: " + meterDt.ToString();
 
 
             richTextBox1.Clear();

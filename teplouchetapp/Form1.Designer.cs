@@ -54,6 +54,7 @@
             this.btnIndPollDaily = new System.Windows.Forms.Button();
             this.checkBoxPollOffline = new System.Windows.Forms.CheckBox();
             this.cbConfiguration = new System.Windows.Forms.ComboBox();
+            this.cbOnlyDateUpd = new System.Windows.Forms.CheckBox();
             this.gbAdditionalSettings = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnIndPollInfo = new System.Windows.Forms.Button();
@@ -80,7 +81,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.textBoxIp = new System.Windows.Forms.TextBox();
-            this.cbOnlyDateUpd = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownComReadTimeout)).BeginInit();
@@ -371,6 +371,17 @@
             this.cbConfiguration.TabIndex = 56;
             this.toolTip1.SetToolTip(this.cbConfiguration, "Подгружаемый xml для счетчиков тепла или воды?");
             // 
+            // cbOnlyDateUpd
+            // 
+            this.cbOnlyDateUpd.AutoSize = true;
+            this.cbOnlyDateUpd.Location = new System.Drawing.Point(14, 64);
+            this.cbOnlyDateUpd.Name = "cbOnlyDateUpd";
+            this.cbOnlyDateUpd.Size = new System.Drawing.Size(185, 21);
+            this.cbOnlyDateUpd.TabIndex = 57;
+            this.cbOnlyDateUpd.Text = "Обновлять только дату";
+            this.toolTip1.SetToolTip(this.cbOnlyDateUpd, "Обновлять только дату в режиме инициализации приборов");
+            this.cbOnlyDateUpd.UseVisualStyleBackColor = true;
+            // 
             // gbAdditionalSettings
             // 
             this.gbAdditionalSettings.Controls.Add(this.panel3);
@@ -473,7 +484,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(153, 22);
             this.textBox1.TabIndex = 51;
-            this.textBox1.Text = "140923";
+            this.textBox1.Text = "00061583";
             // 
             // panel1
             // 
@@ -665,18 +676,7 @@
             this.textBoxIp.Name = "textBoxIp";
             this.textBoxIp.Size = new System.Drawing.Size(99, 22);
             this.textBoxIp.TabIndex = 55;
-            this.textBoxIp.Text = "192.168.127.203";
-            // 
-            // cbOnlyDateUpd
-            // 
-            this.cbOnlyDateUpd.AutoSize = true;
-            this.cbOnlyDateUpd.Location = new System.Drawing.Point(14, 64);
-            this.cbOnlyDateUpd.Name = "cbOnlyDateUpd";
-            this.cbOnlyDateUpd.Size = new System.Drawing.Size(185, 21);
-            this.cbOnlyDateUpd.TabIndex = 57;
-            this.cbOnlyDateUpd.Text = "Обновлять только дату";
-            this.toolTip1.SetToolTip(this.cbOnlyDateUpd, "Обновлять только дату в режиме инициализации приборов");
-            this.cbOnlyDateUpd.UseVisualStyleBackColor = true;
+            this.textBoxIp.Text = "192.168.127.204";
             // 
             // Form1
             // 
