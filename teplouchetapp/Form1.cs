@@ -972,7 +972,7 @@ namespace elfextendedapp
 
                         int chan = int.Parse(dt.Rows[i]["colChannel"].ToString());
 
-                        if (!checkBoxPollOffline.Checked)
+                        if (cbOnlyDateUpd.Checked == false)
                         {
                             if (Meter.WriteValue(dVal, chan))
                             {
@@ -985,20 +985,11 @@ namespace elfextendedapp
                                 goto PREEND;
                             }
                         }
-                        else
-                        {
-                            float readVal = -1;
-                            if (Meter.ReadCurrentValues((ushort)chan, 0, ref readVal))
-                            {
-                                dt.Rows[i]["colResult"] = readVal;
 
-                            }
-                            else
-                            {
-                                dt.Rows[i]["colResult"] = -1;
-                                goto PREEND;
-                            }
-                        }
+                        // обновление даты
+                        if (Meter.SyncTime(DateTime.Now))
+                            dt.Rows[i]["colResult"] += "/DT_OK";
+
 
                         if (cbFromFileTcp.Checked)
                         {
@@ -1412,7 +1403,7 @@ namespace elfextendedapp
             {
                 // обновим дату при чтении информации о приборе
                 if (pd.SyncTime(DateTime.Now))
-                    dateUpdInfo += "Дата обновлена";
+                    dateUpdInfo = "Дата обновлена";
             }
 
             // в любом случае прочитаем текущую дату прибора
