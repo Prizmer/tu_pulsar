@@ -1115,7 +1115,6 @@ namespace Drivers.PulsarDriver
 
         public bool ReadMeterType(ref string softwareVersion)
         {
-
             try
             {
                 softwareVersion = "";
@@ -1297,6 +1296,117 @@ namespace Drivers.PulsarDriver
                 }
             }
 
+            return false;
+        }
+
+        public bool ReadTime(ref DateTime meterDate)
+        {
+            m_length_cmd = 0;
+            Byte[] in_buffer = new Byte[255];
+
+            byte func = 0x04;
+            byte out_packet_length = 0x0A;
+            m_cmd = new byte[out_packet_length];
+
+            ushort rnd = 0x50b9;
+
+            // адрес
+            byte[] adr = new byte[4];
+            Int2BCD((int)m_address, adr);
+
+            byte[] random = BitConverter.GetBytes(rnd);
+
+            // формируем команду 
+            // адрес
+            for (int i = 0; i < adr.Length; i++)
+                m_cmd[m_length_cmd++] = adr[i];
+
+            // номер функции
+            m_cmd[m_length_cmd++] = func;
+            // общая длина пакета
+            m_cmd[m_length_cmd++] = out_packet_length;
+
+            // ID
+            for (int i = 0; i < random.Length; i++)
+                m_cmd[m_length_cmd++] = random[i];
+
+            // CRC16
+            byte[] crc16 = CRC16(m_cmd, m_length_cmd);
+            for (int i = 0; i < crc16.Length; i++)
+                m_cmd[m_length_cmd++] = crc16[i];
+
+
+            // WriteToLog("ReadCurrentValues: Исходящие: " + BitConverter.ToString(m_cmd));
+            if (m_vport.WriteReadData(FindPacketSignature, m_cmd, ref in_buffer, m_length_cmd, -1) > 0)
+            {
+                //WriteToLog("ReadCurrentValues: Входящие: " + BitConverter.ToString(in_buffer));
+                //WriteToLog("WriteReadData");
+                bool find_header = true;
+
+                if (!CheckReceivedBytes(in_buffer, "ReadTime"))
+                    return false;
+
+                // длина пакета 
+                byte packet_length = 0;
+
+                // проверка заголовка пакета
+                for (int i = 0; i < 5; i++)
+                {
+                    if (m_cmd[i] != in_buffer[i])
+                    {
+                        find_header = false;
+                    }
+                }
+
+                if (find_header)
+                {
+                    //WriteToLog("find_header");
+                    packet_length = in_buffer[5];
+
+                    // проверка CRC
+                    crc16 = CRC16(in_buffer, packet_length - 2);
+
+                    if (in_buffer[packet_length - 2] == crc16[0] && in_buffer[packet_length - 1] == crc16[1])
+                    {
+                        // проверка ID
+                        if (m_cmd[out_packet_length - 4] == in_buffer[packet_length - 4] && m_cmd[out_packet_length - 3] == in_buffer[packet_length - 3])
+                        {
+
+                            // после всех проверок можно разбирать дату
+
+                            int stInd = 6;
+
+                            try
+                            {
+                                DateTime dt = new DateTime(in_buffer[stInd] + 2000, in_buffer[stInd + 1],
+                                    in_buffer[stInd + 2], in_buffer[stInd + 3], in_buffer[stInd + 4], in_buffer[stInd + 5]);
+                                meterDate = new DateTime(dt.Ticks);
+
+                                return true;
+                            }
+                            catch (Exception ex)
+                            {
+                                WriteToLog("Meter date parse exception: " + ex);
+                                WriteToLog(BitConverter.ToString(in_buffer));
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            WriteToLog("ReadSerialNumber: неверный id");
+                        }
+                    }
+                    else
+                    {
+                        WriteToLog("ReadSerialNumber: неверный CRC");
+                    }
+                }
+                else
+                {
+                    WriteToLog("ReadSerialNumber: первые 5 байт не равняются отправленной команде");
+                }
+            }
+  
             return false;
         }
 

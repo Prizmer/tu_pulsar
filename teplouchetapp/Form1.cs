@@ -1406,10 +1406,29 @@ namespace elfextendedapp
                 mt = "No meter type version...";
             }
 
+
+            string dateUpdInfo = "Дата НЕ обновлена";
+            if (cbOnlyDateUpd.Checked == true)
+            {
+                // обновим дату при чтении информации о приборе
+                if (pd.SyncTime(DateTime.Now))
+                    dateUpdInfo += "Дата обновлена";
+            }
+
+            // в любом случае прочитаем текущую дату прибора
+            string dateReadInfo = "Дата прибора не прочитана";
+            DateTime meterDt = new DateTime();
+            if (pd.ReadTime(ref meterDt))
+                dateReadInfo = "Дата прибора: " + Meter.ToString();
+
+
             richTextBox1.Clear();
             richTextBox1.Text += serial + "\n";
             richTextBox1.Text += sw + "\n";
             richTextBox1.Text += mt + "\n";
+            richTextBox1.Text += dateUpdInfo + "\n";
+            richTextBox1.Text += dateReadInfo + "\n";
+
         }
 
         private void btnIndPollDaily_Click(object sender, EventArgs e)
