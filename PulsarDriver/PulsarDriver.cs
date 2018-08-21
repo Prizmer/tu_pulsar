@@ -247,7 +247,29 @@ namespace Drivers.PulsarDriver
                 return false;
             }
 
+            // всегда надо проверять CRC
+            int packet_length = data[5];
+            if (data.Length >= packet_length)
+            {
+                byte[] crc16 = CRC16(data, packet_length - 2);
+                if (data[packet_length - 2] != crc16[0] || data[packet_length - 1] != crc16[1])
+                {
+                    WriteToLog(methodName + ": ошибка проверки CRC, расчитанная: " + BitConverter.ToString(crc16));
+                    WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
+                    WriteToLog(methodName + ": прекращает работу");
+                    return false;
+                }
+            } else
+            {
+                WriteToLog(methodName + ": кол-во байт не соответствует пришедшему в параметре L - " + data.Length);
+                WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
+                WriteToLog(methodName + ": прекращает работу");
+                return false;
+            }
+
+
             return true;
+
         }
 
         public bool ReadMonthlyValues(byte month, ushort year, ref Values values)
@@ -599,7 +621,14 @@ namespace Drivers.PulsarDriver
                 byte[] array = new byte[queue.Count];
                 array = queue.ToArray();
 
-                if (CheckReceivedBytes(array))
+                // зачем то, в СО массив записывается в очередь от последнего элемента к 0му
+                // из за этого, неправильно определяется размер сообщения L и функция проверки ложно
+                // срабатывает
+                Array.Reverse(array);
+
+                bool resCheck = CheckReceivedBytes(array);
+                WriteToLog("FindPacketSignature, resCheck: " + resCheck);
+                if (resCheck == true)
                     return 1;
                 else
                     return -1;
