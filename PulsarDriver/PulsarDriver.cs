@@ -224,48 +224,58 @@ namespace Drivers.PulsarDriver
 
         bool CheckReceivedBytes(byte[] data, string methodName = "")
         {
-            if (data.Length == 0)
+            try
             {
-                WriteToLog(methodName + ": получено 0 байт");
-                WriteToLog(methodName + ": прекращает работу");
-                return false;
-            }
-
-            if (data.Length < 6)
-            {
-                WriteToLog(methodName + ": получено мало байт - " + data.Length);
-                WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
-                WriteToLog(methodName + ": прекращает работу");
-                return false;
-            }
-
-            if (data.Length > 5 && data.Length < (data[5]))
-            {
-                WriteToLog(methodName + ": сообщение должно быть минимум - " + data[5] + " байт, а пришло лишь " + data.Length);
-                WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
-                WriteToLog(methodName + ": прекращает работу");
-                return false;
-            }
-
-            // всегда надо проверять CRC
-            int packet_length = data[5];
-            if (data.Length >= packet_length)
-            {
-                byte[] crc16 = CRC16(data, packet_length - 2);
-                if (data[packet_length - 2] != crc16[0] || data[packet_length - 1] != crc16[1])
+                if (data.Length == 0)
                 {
-                    WriteToLog(methodName + ": ошибка проверки CRC, расчитанная: " + BitConverter.ToString(crc16));
+                    WriteToLog(methodName + ": получено 0 байт");
+                    WriteToLog(methodName + ": прекращает работу");
+                    return false;
+                }
+
+                if (data.Length < 6)
+                {
+                    WriteToLog(methodName + ": получено мало байт - " + data.Length);
                     WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
                     WriteToLog(methodName + ": прекращает работу");
                     return false;
                 }
-            } else
+
+                if (data.Length > 5 && data.Length < (data[5]))
+                {
+                    WriteToLog(methodName + ": сообщение должно быть минимум - " + data[5] + " байт, а пришло лишь " + data.Length);
+                    WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
+                    WriteToLog(methodName + ": прекращает работу");
+                    return false;
+                }
+
+                // всегда надо проверять CRC
+                int packet_length = data[5];
+                if (data.Length >= packet_length)
+                {
+                    byte[] crc16 = CRC16(data, packet_length - 2);
+                    if (data[packet_length - 2] != crc16[0] || data[packet_length - 1] != crc16[1])
+                    {
+                        WriteToLog(methodName + ": ошибка проверки CRC, расчитанная: " + BitConverter.ToString(crc16));
+                        WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
+                        WriteToLog(methodName + ": прекращает работу");
+                        return false;
+                    }
+                }
+                else
+                {
+                    WriteToLog(methodName + ": кол-во байт не соответствует пришедшему в параметре L - " + data.Length);
+                    WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
+                    WriteToLog(methodName + ": прекращает работу");
+                    return false;
+                }
+
+            } catch (Exception ex)
             {
-                WriteToLog(methodName + ": кол-во байт не соответствует пришедшему в параметре L - " + data.Length);
-                WriteToLog(methodName + ": получено: " + BitConverter.ToString(data));
-                WriteToLog(methodName + ": прекращает работу");
+                WriteToLog(methodName + ": друг мой, сработал трай-кетч, ты где-то не проверил входит ли индекс в массив?!\n" + ex.ToString());
                 return false;
             }
+
 
 
             return true;

@@ -282,6 +282,7 @@
             // cbFromFileTcp
             // 
             this.cbFromFileTcp.AutoSize = true;
+            this.cbFromFileTcp.Enabled = false;
             this.cbFromFileTcp.Location = new System.Drawing.Point(17, 193);
             this.cbFromFileTcp.Margin = new System.Windows.Forms.Padding(4);
             this.cbFromFileTcp.Name = "cbFromFileTcp";

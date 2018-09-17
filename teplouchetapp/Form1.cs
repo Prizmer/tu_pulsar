@@ -943,7 +943,7 @@ namespace elfextendedapp
                 if (o != null)
                 {
 
-                    if (!checkBoxPollOffline.Checked && (oVal == null || oVal.ToString() == "")) goto PREEND;
+                    //if (!checkBoxPollOffline.Checked && (oVal == null || oVal.ToString() == "")) goto PREEND;
 
                     try
                     {
