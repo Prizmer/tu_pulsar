@@ -250,7 +250,7 @@ namespace Drivers.PulsarDriver
                 }
 
                 // всегда надо проверять CRC
-                int packet_length = data[5];
+                int packet_length = data.Length;
                 if (data.Length >= packet_length)
                 {
                     byte[] crc16 = CRC16(data, packet_length - 2);
@@ -636,7 +636,7 @@ namespace Drivers.PulsarDriver
                 // срабатывает
                 Array.Reverse(array);
 
-                bool resCheck = CheckReceivedBytes(array);
+                bool resCheck = CheckReceivedBytes(array, "FindPacketSignature");
                 WriteToLog("FindPacketSignature, resCheck: " + resCheck);
                 if (resCheck == true)
                     return 1;
