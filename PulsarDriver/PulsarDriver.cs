@@ -1154,6 +1154,15 @@ namespace Drivers.PulsarDriver
 
         public bool ReadMeterType(ref string softwareVersion)
         {
+            bool res = this.readMeterType(ref softwareVersion);
+            if (!res)
+                res = this.readMeterType(ref softwareVersion, true);
+
+            return res;
+        }
+
+        private bool readMeterType(ref string softwareVersion, bool alt = false)
+        {
             try
             {
                 softwareVersion = "";
@@ -1162,14 +1171,22 @@ namespace Drivers.PulsarDriver
 
                 m_cmd = new byte[11];
 
+                if (alt)
+                    m_cmd = new byte[12];
+
                 // адрес
                 byte[] adr = new byte[4];
                 Int2BCD((int)m_address, adr);
 
-                byte[] parameter = { 0x03, 0x02, 0x46, 0x0, 0x01 };
 
-                ALTERNATIVE_PRMS:
- 
+                byte[] parameter = { 0x03, 0x02, 0x46, 0x0, 0x01 };
+                byte[] parameterAlternative = { 0x0A, 0x0C, 0x0, 0x0, 0xF0, 0x1F };
+
+                if (alt)
+                    parameter = parameterAlternative;
+
+
+
                 // формируем команду 
                 // адрес
                 for (int i = 0; i < adr.Length; i++)
@@ -1192,7 +1209,7 @@ namespace Drivers.PulsarDriver
                     bool find_header = true;
 
                     // длина пакета 
-                    byte packet_length = 10;
+                    byte packet_length = (byte)in_buffer.Length;
 
                     if (!CheckReceivedBytes(in_buffer, "ReadMeterType"))
                         return false;
@@ -1237,7 +1254,7 @@ namespace Drivers.PulsarDriver
                             }
 
                             //WriteToLog("Серийник: " + serial_number);
-                  
+
                         }
                         else
                         {
@@ -1251,14 +1268,7 @@ namespace Drivers.PulsarDriver
                 }
                 else
                 {
-                    WriteToLog("ReadMeterType: WriteReadData вернул 0 байт на запрос по параметрам  0x03, 0x02, 0x46, 0x0, 0x01. Пробую альтернативные.");
-
-                    // для приборов типа пульсар модуль счетчка воды v1.1 
-                    // по документам "Счетчики воды Пульсар с цифровым выходом"
-                    byte[] parameter2 = { 0x0A, 0x0C, 0x0, 0x0, 0xF1 };
-                    parameter = parameter2;
-
-                    goto ALTERNATIVE_PRMS;
+                    WriteToLog("ReadMeterType: WriteReadData вернул 0 байт на запрос по параметрам  0x03, 0x02, 0x46, 0x0, 0x01.");
                 }
             }
             catch (Exception ex)
@@ -1574,7 +1584,7 @@ namespace Drivers.PulsarDriver
         voda_v6 = 0x0129,
         voda_rs485 = 0x62,
         pulsarM = 0x0104,
-        voda_v11 = 0x3F01
+        voda_v11 = 0x013F
     }
 
     #region Заимствованные структуры
