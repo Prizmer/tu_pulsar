@@ -46,7 +46,7 @@ namespace Drivers.PulsarDriver
 
             try
             { 
-                if (meterType == PulsarMeterTypes.pulsarM || meterType == PulsarMeterTypes.voda_v6)
+                if (meterType == PulsarMeterTypes.pulsarM || meterType == PulsarMeterTypes.voda_v6 || meterType == PulsarMeterTypes.voda_v11)
                 { 
                     //согласно документации
                     if (!archives) val = (double)BitConverter.ToInt32(data, 6 + startIndexMult * 4) / 1000;
@@ -1183,11 +1183,10 @@ namespace Drivers.PulsarDriver
                     m_cmd[m_length_cmd++] = crc16[i];
 
 
-                // WriteToLog("ReadCurrentValues: Исходящие: " + BitConverter.ToString(m_cmd));
+                WriteToLog("ReadMeterType: Исходящие: " + BitConverter.ToString(m_cmd));
                 if (m_vport.WriteReadData(FindPacketSignature, m_cmd, ref in_buffer, m_length_cmd, -1) > 0)
                 {
-                    //WriteToLog("ReadCurrentValues: Входящие: " + BitConverter.ToString(in_buffer));
-                    //WriteToLog("WriteReadData");
+                    WriteToLog("ReadMeterType: Входящие: " + BitConverter.ToString(in_buffer));
                     bool find_header = true;
 
                     // длина пакета 
@@ -1247,6 +1246,9 @@ namespace Drivers.PulsarDriver
                     {
                         WriteToLog("ReadMeterType: первые 5 байт не равняются отправленной команде");
                     }
+                } else
+                {
+                    WriteToLog("ReadMeterType: WriteReadData вернул 0 байт");
                 }
             }
             catch (Exception ex)
@@ -1561,7 +1563,8 @@ namespace Drivers.PulsarDriver
         kompaktniy_teplo_v4 = 0x0121,
         voda_v6 = 0x0129,
         voda_rs485 = 0x62,
-        pulsarM = 0x0104
+        pulsarM = 0x0104,
+        voda_v11 = 0x3F01
     }
 
     #region Заимствованные структуры
