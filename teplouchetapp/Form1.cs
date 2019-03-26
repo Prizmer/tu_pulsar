@@ -29,20 +29,20 @@ namespace elfextendedapp
             this.Text = FORM_TEXT_DEFAULT;
 
             // заполним список локальными ip адресами
-            var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    this.listBox1.Items.Add(ip.ToString());
-                }
-            }
+            //var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+            //foreach (var ip in host.AddressList)
+            //{
+            //    if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            //    {
+            //        this.listBox1.Items.Add(ip.ToString());
+            //    }
+            //}
 
-            if (listBox1.Items.Count > 0)
-            {
-                this.listBox1.SelectedIndex = 0;
-                this.selectedLocalIp = this.listBox1.SelectedItem.ToString();
-            }
+            //if (listBox1.Items.Count > 0)
+            //{
+            //    this.listBox1.SelectedIndex = 0;
+            //    this.selectedLocalIp = this.listBox1.SelectedItem.ToString();
+            //}
 
 
 
@@ -259,10 +259,10 @@ namespace elfextendedapp
                 }
                 else
                 {
-                    NameValueCollection loadedAppSettings = new NameValueCollection();
-                    loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
+                    //NameValueCollection loadedAppSettings = new NameValueCollection();
+                    //loadedAppSettings.Add("localEndPointIp", this.listBox1.SelectedItem.ToString());
 
-                    Vp = new TcpipPort(textBoxIp.Text, int.Parse(textBoxPort.Text), write_timeout, read_timeout, 50, loadedAppSettings);
+                    Vp = new TcpipPort(textBoxIp.Text, int.Parse(textBoxPort.Text), write_timeout, read_timeout, 50);
                 }
 
 

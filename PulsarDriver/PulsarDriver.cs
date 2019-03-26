@@ -1168,6 +1168,8 @@ namespace Drivers.PulsarDriver
 
                 byte[] parameter = { 0x03, 0x02, 0x46, 0x0, 0x01 };
 
+                ALTERNATIVE_PRMS:
+ 
                 // формируем команду 
                 // адрес
                 for (int i = 0; i < adr.Length; i++)
@@ -1246,9 +1248,17 @@ namespace Drivers.PulsarDriver
                     {
                         WriteToLog("ReadMeterType: первые 5 байт не равняются отправленной команде");
                     }
-                } else
+                }
+                else
                 {
-                    WriteToLog("ReadMeterType: WriteReadData вернул 0 байт");
+                    WriteToLog("ReadMeterType: WriteReadData вернул 0 байт на запрос по параметрам  0x03, 0x02, 0x46, 0x0, 0x01. Пробую альтернативные.");
+
+                    // для приборов типа пульсар модуль счетчка воды v1.1 
+                    // по документам "Счетчики воды Пульсар с цифровым выходом"
+                    byte[] parameter2 = { 0x0A, 0x0C, 0x0, 0x0, 0xF1 };
+                    parameter = parameter2;
+
+                    goto ALTERNATIVE_PRMS;
                 }
             }
             catch (Exception ex)
