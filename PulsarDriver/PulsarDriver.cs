@@ -39,7 +39,7 @@ namespace Drivers.PulsarDriver
             {
                 string tmpMeterType = "";
                 if (!this.ReadMeterType(ref tmpMeterType))
-                    meterType = PulsarMeterTypes.kompaktniy_teplo_v3;
+                    meterType = PulsarMeterTypes.voda_rs485;
             }
 
             WriteToLog("GetValueFromBytesByMeterType MeterType: " + meterType.Value);
@@ -54,8 +54,13 @@ namespace Drivers.PulsarDriver
                 }
                 else if (meterType == PulsarMeterTypes.voda_rs485)
                 {
-                    if (!archives) val = BitConverter.ToSingle(data, 6 + startIndexMult * 4);
-                    else val = BitConverter.ToSingle(data, 0); 
+                    // следуем документу "Протокол Счётчики импульсов регистраторы Пульсар 2_16"
+                    if (!archives)
+                        // текущие, data содержит все данные, включая лишние
+                        val = BitConverter.ToDouble(data, 6 + startIndexMult * 4);
+                    else
+                        // метод чтения архивов отдает data уже 4 байта с полезными данными
+                        val = BitConverter.ToSingle(data, 0);  
                 }
                 else if (meterType == PulsarMeterTypes.kompaktniy_teplo_v3 || meterType == PulsarMeterTypes.kompaktniy_teplo_v4)
                 {
@@ -193,7 +198,8 @@ namespace Drivers.PulsarDriver
                             recordValue.fine_state = false;
                             recordValue.value = -1;
 
-                            if (!GetValueFromBytesByMeterType(in_buffer, i, out recordValue.value))
+                            // почему-то стояло i в качестве второго ар
+                            if (!GetValueFromBytesByMeterType(in_buffer, 0, out recordValue.value))
                                 return false;
 
                             recordValue.fine_state = true;

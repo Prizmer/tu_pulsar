@@ -487,7 +487,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(153, 22);
             this.textBox1.TabIndex = 51;
-            this.textBox1.Text = "33758";
+            this.textBox1.Text = "1119271";
             // 
             // panel1
             // 
@@ -671,7 +671,7 @@
             this.textBoxPort.Name = "textBoxPort";
             this.textBoxPort.Size = new System.Drawing.Size(56, 22);
             this.textBoxPort.TabIndex = 56;
-            this.textBoxPort.Text = "4002";
+            this.textBoxPort.Text = "4001";
             // 
             // textBoxIp
             // 
@@ -680,7 +680,7 @@
             this.textBoxIp.Name = "textBoxIp";
             this.textBoxIp.Size = new System.Drawing.Size(99, 22);
             this.textBoxIp.TabIndex = 55;
-            this.textBoxIp.Text = "89.17.63.46";
+            this.textBoxIp.Text = "10.0.0.11";
             // 
             // Form1
             // 

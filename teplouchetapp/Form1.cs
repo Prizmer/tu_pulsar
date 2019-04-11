@@ -324,6 +324,15 @@ namespace elfextendedapp
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+            //byte[] arr = { 0x01, 0x11, 0x92, 0x71, 0x01, 0x12, 0x7B, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x94, 0x3F, 0x03, 0x66, 0x40, 0x97  };
+            //byte[] arr2 = { 0x7B, 0x14, 0xAE, 0x47 };
+            //byte[] arr3 = { 0xE1, 0x7A, 0x94, 0x3F };
+            //Array.Reverse(arr2); 
+            //double tmp = BitConverter.ToDouble(arr, 6);
+            //Debug.WriteLine(tmp);
+            //Environment.Exit(1);
+
             //setting up dialogs
             ofd1.Filter = "Excel files (*.xls) | *.xls";
             sfd1.Filter = ofd1.Filter;
