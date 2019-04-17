@@ -679,7 +679,10 @@ namespace Drivers.PulsarDriver
         public bool OpenLinkCanal()
         {
             string serialTmp = "";
-            return ReadSerialNumber(ref serialTmp);
+
+            // у счетчиков "счетчики импульсов регистраторы Пульсар 2_16" не определяется серийный номер...
+            // а значит фейлится проверка чтения по каналу
+            return true;// ReadSerialNumber(ref serialTmp);
         }
 
         public bool ReadSerialNumber(ref string serial_number)
