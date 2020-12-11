@@ -53,6 +53,10 @@
     <Reference Include="PortsLib">
       <HintPath>..\..\..\PollServer\PortsLib\bin\Debug\PortsLib.dll</HintPath>
     </Reference>
+    <Reference Include="PulsarDriver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\prizmer_test\PrizmerTest\bin\Debug\PulsarDriver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -109,12 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pi_logo_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PulsarDriver\PulsarDriver.csproj">
-      <Project>{cd517ce4-70f4-43b8-b38c-11d09b0ccbf1}</Project>
-      <Name>PulsarDriver</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

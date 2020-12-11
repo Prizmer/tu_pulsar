@@ -97,10 +97,10 @@
             // buttonImport
             // 
             this.buttonImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonImport.Location = new System.Drawing.Point(191, 17);
-            this.buttonImport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonImport.Location = new System.Drawing.Point(334, 31);
+            this.buttonImport.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonImport.Name = "buttonImport";
-            this.buttonImport.Size = new System.Drawing.Size(129, 31);
+            this.buttonImport.Size = new System.Drawing.Size(226, 56);
             this.buttonImport.TabIndex = 3;
             this.buttonImport.Text = "Импорт (*.xls)";
             this.toolTip1.SetToolTip(this.buttonImport, "Загрузить таблицу содержающую столбец с номерами квартир и столбец с заводскими н" +
@@ -132,8 +132,8 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv1.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv1.Location = new System.Drawing.Point(12, 65);
-            this.dgv1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgv1.Location = new System.Drawing.Point(21, 118);
+            this.dgv1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.dgv1.Name = "dgv1";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -143,8 +143,9 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgv1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv1.RowHeadersWidth = 92;
             this.dgv1.RowTemplate.Height = 28;
-            this.dgv1.Size = new System.Drawing.Size(944, 366);
+            this.dgv1.Size = new System.Drawing.Size(1652, 663);
             this.dgv1.TabIndex = 4;
             // 
             // ofd1
@@ -155,10 +156,10 @@
             // 
             this.buttonPing.Enabled = false;
             this.buttonPing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPing.Location = new System.Drawing.Point(480, 17);
-            this.buttonPing.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonPing.Location = new System.Drawing.Point(840, 31);
+            this.buttonPing.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonPing.Name = "buttonPing";
-            this.buttonPing.Size = new System.Drawing.Size(111, 31);
+            this.buttonPing.Size = new System.Drawing.Size(194, 56);
             this.buttonPing.TabIndex = 5;
             this.buttonPing.Text = "Тест связи";
             this.toolTip1.SetToolTip(this.buttonPing, "Выполняется только проверка связи без получения каких-либо данных со счетчика");
@@ -169,10 +170,10 @@
             // 
             this.buttonPoll.Enabled = false;
             this.buttonPoll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPoll.Location = new System.Drawing.Point(597, 17);
-            this.buttonPoll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonPoll.Location = new System.Drawing.Point(1045, 31);
+            this.buttonPoll.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonPoll.Name = "buttonPoll";
-            this.buttonPoll.Size = new System.Drawing.Size(111, 31);
+            this.buttonPoll.Size = new System.Drawing.Size(194, 56);
             this.buttonPoll.TabIndex = 6;
             this.buttonPoll.Text = "Опрос";
             this.toolTip1.SetToolTip(this.buttonPoll, "Выполняются проверка связи и опрос счетчика по текущим значениям");
@@ -183,10 +184,10 @@
             // 
             this.buttonExport.Enabled = false;
             this.buttonExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonExport.Location = new System.Drawing.Point(326, 17);
-            this.buttonExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonExport.Location = new System.Drawing.Point(570, 31);
+            this.buttonExport.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(129, 31);
+            this.buttonExport.Size = new System.Drawing.Size(226, 56);
             this.buttonExport.TabIndex = 41;
             this.buttonExport.Text = "Экспорт (*.xls)";
             this.toolTip1.SetToolTip(this.buttonExport, "Сохранить полученные в программе данные");
@@ -200,10 +201,10 @@
             this.toolStripProgressBar1,
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 616);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1128);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1255, 26);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(2196, 36);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 43;
             this.statusStrip1.Text = "statusStrip1";
@@ -211,27 +212,27 @@
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(177, 20);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(310, 22);
             this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 21);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(0, 25);
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 21);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 25);
             // 
             // buttonStop
             // 
             this.buttonStop.Enabled = false;
             this.buttonStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonStop.Location = new System.Drawing.Point(758, 17);
-            this.buttonStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonStop.Location = new System.Drawing.Point(1326, 31);
+            this.buttonStop.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(103, 31);
+            this.buttonStop.Size = new System.Drawing.Size(180, 56);
             this.buttonStop.TabIndex = 44;
             this.buttonStop.Text = "Стоп";
             this.toolTip1.SetToolTip(this.buttonStop, "Прекращает длительные процессы в программе и закрывает системный порт");
@@ -242,10 +243,10 @@
             // 
             this.comboBoxComPorts.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxComPorts.FormattingEnabled = true;
-            this.comboBoxComPorts.Location = new System.Drawing.Point(89, 64);
-            this.comboBoxComPorts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBoxComPorts.Location = new System.Drawing.Point(156, 116);
+            this.comboBoxComPorts.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.comboBoxComPorts.Name = "comboBoxComPorts";
-            this.comboBoxComPorts.Size = new System.Drawing.Size(161, 24);
+            this.comboBoxComPorts.Size = new System.Drawing.Size(279, 37);
             this.comboBoxComPorts.TabIndex = 58;
             this.toolTip1.SetToolTip(this.comboBoxComPorts, "Системный последовательный порт");
             // 
@@ -257,8 +258,8 @@
             0,
             0,
             0});
-            this.numericUpDownComReadTimeout.Location = new System.Drawing.Point(143, 146);
-            this.numericUpDownComReadTimeout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.numericUpDownComReadTimeout.Location = new System.Drawing.Point(250, 265);
+            this.numericUpDownComReadTimeout.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.numericUpDownComReadTimeout.Maximum = new decimal(new int[] {
             1600,
             0,
@@ -270,7 +271,7 @@
             0,
             0});
             this.numericUpDownComReadTimeout.Name = "numericUpDownComReadTimeout";
-            this.numericUpDownComReadTimeout.Size = new System.Drawing.Size(61, 18);
+            this.numericUpDownComReadTimeout.Size = new System.Drawing.Size(107, 31);
             this.numericUpDownComReadTimeout.TabIndex = 59;
             this.toolTip1.SetToolTip(this.numericUpDownComReadTimeout, "Время ожидания ответа одного счетчика");
             this.numericUpDownComReadTimeout.Value = new decimal(new int[] {
@@ -283,10 +284,10 @@
             // 
             this.cbFromFileTcp.AutoSize = true;
             this.cbFromFileTcp.Enabled = false;
-            this.cbFromFileTcp.Location = new System.Drawing.Point(17, 193);
-            this.cbFromFileTcp.Margin = new System.Windows.Forms.Padding(4);
+            this.cbFromFileTcp.Location = new System.Drawing.Point(30, 350);
+            this.cbFromFileTcp.Margin = new System.Windows.Forms.Padding(7);
             this.cbFromFileTcp.Name = "cbFromFileTcp";
-            this.cbFromFileTcp.Size = new System.Drawing.Size(192, 21);
+            this.cbFromFileTcp.Size = new System.Drawing.Size(323, 33);
             this.cbFromFileTcp.TabIndex = 65;
             this.cbFromFileTcp.Text = "Данные порта из файла";
             this.toolTip1.SetToolTip(this.cbFromFileTcp, "Брать адрес и порт из загружаемой таблицы");
@@ -300,8 +301,8 @@
             0,
             0,
             0});
-            this.numericUpDownComWriteTimeout.Location = new System.Drawing.Point(143, 117);
-            this.numericUpDownComWriteTimeout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.numericUpDownComWriteTimeout.Location = new System.Drawing.Point(250, 212);
+            this.numericUpDownComWriteTimeout.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.numericUpDownComWriteTimeout.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -313,7 +314,7 @@
             0,
             0});
             this.numericUpDownComWriteTimeout.Name = "numericUpDownComWriteTimeout";
-            this.numericUpDownComWriteTimeout.Size = new System.Drawing.Size(61, 18);
+            this.numericUpDownComWriteTimeout.Size = new System.Drawing.Size(107, 31);
             this.numericUpDownComWriteTimeout.TabIndex = 62;
             this.toolTip1.SetToolTip(this.numericUpDownComWriteTimeout, "Время по прошествии которого происходит таймаут записи. Не используется в данной " +
         "версии.");
@@ -326,10 +327,10 @@
             // btnIndPollCurrent
             // 
             this.btnIndPollCurrent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIndPollCurrent.Location = new System.Drawing.Point(185, 24);
-            this.btnIndPollCurrent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnIndPollCurrent.Location = new System.Drawing.Point(324, 44);
+            this.btnIndPollCurrent.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnIndPollCurrent.Name = "btnIndPollCurrent";
-            this.btnIndPollCurrent.Size = new System.Drawing.Size(51, 28);
+            this.btnIndPollCurrent.Size = new System.Drawing.Size(89, 51);
             this.btnIndPollCurrent.TabIndex = 60;
             this.btnIndPollCurrent.Text = "Т";
             this.toolTip1.SetToolTip(this.btnIndPollCurrent, "Текущий параетр");
@@ -339,10 +340,10 @@
             // btnIndPollDaily
             // 
             this.btnIndPollDaily.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIndPollDaily.Location = new System.Drawing.Point(185, 58);
-            this.btnIndPollDaily.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnIndPollDaily.Location = new System.Drawing.Point(324, 105);
+            this.btnIndPollDaily.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnIndPollDaily.Name = "btnIndPollDaily";
-            this.btnIndPollDaily.Size = new System.Drawing.Size(51, 28);
+            this.btnIndPollDaily.Size = new System.Drawing.Size(89, 51);
             this.btnIndPollDaily.TabIndex = 61;
             this.btnIndPollDaily.Text = "С";
             this.toolTip1.SetToolTip(this.btnIndPollDaily, "Суточный параметр");
@@ -353,10 +354,10 @@
             // 
             this.checkBoxPollOffline.AutoSize = true;
             this.checkBoxPollOffline.Enabled = false;
-            this.checkBoxPollOffline.Location = new System.Drawing.Point(14, 24);
-            this.checkBoxPollOffline.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkBoxPollOffline.Location = new System.Drawing.Point(24, 44);
+            this.checkBoxPollOffline.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.checkBoxPollOffline.Name = "checkBoxPollOffline";
-            this.checkBoxPollOffline.Size = new System.Drawing.Size(192, 21);
+            this.checkBoxPollOffline.Size = new System.Drawing.Size(335, 33);
             this.checkBoxPollOffline.TabIndex = 55;
             this.checkBoxPollOffline.Text = "Опрос по неответившим";
             this.toolTip1.SetToolTip(this.checkBoxPollOffline, "Если флаг снят, работаем в режиме записи");
@@ -366,20 +367,23 @@
             // cbConfiguration
             // 
             this.cbConfiguration.FormattingEnabled = true;
-            this.cbConfiguration.Location = new System.Drawing.Point(14, 98);
+            this.cbConfiguration.Location = new System.Drawing.Point(24, 178);
+            this.cbConfiguration.Margin = new System.Windows.Forms.Padding(5);
             this.cbConfiguration.Name = "cbConfiguration";
-            this.cbConfiguration.Size = new System.Drawing.Size(234, 24);
+            this.cbConfiguration.Size = new System.Drawing.Size(406, 37);
             this.cbConfiguration.TabIndex = 56;
             this.toolTip1.SetToolTip(this.cbConfiguration, "Подгружаемый xml для счетчиков тепла или воды?");
+            this.cbConfiguration.SelectedIndexChanged += new System.EventHandler(this.cbConfiguration_SelectedIndexChanged);
             // 
             // cbOnlyDateUpd
             // 
             this.cbOnlyDateUpd.AutoSize = true;
             this.cbOnlyDateUpd.Checked = true;
             this.cbOnlyDateUpd.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbOnlyDateUpd.Location = new System.Drawing.Point(14, 64);
+            this.cbOnlyDateUpd.Location = new System.Drawing.Point(24, 116);
+            this.cbOnlyDateUpd.Margin = new System.Windows.Forms.Padding(5);
             this.cbOnlyDateUpd.Name = "cbOnlyDateUpd";
-            this.cbOnlyDateUpd.Size = new System.Drawing.Size(185, 21);
+            this.cbOnlyDateUpd.Size = new System.Drawing.Size(316, 33);
             this.cbOnlyDateUpd.TabIndex = 57;
             this.cbOnlyDateUpd.Text = "Обновлять только дату";
             this.toolTip1.SetToolTip(this.cbOnlyDateUpd, "Обновлять только дату в режиме инициализации приборов");
@@ -390,11 +394,11 @@
             this.gbAdditionalSettings.Controls.Add(this.panel3);
             this.gbAdditionalSettings.Controls.Add(this.panel1);
             this.gbAdditionalSettings.Controls.Add(this.richTextBox1);
-            this.gbAdditionalSettings.Location = new System.Drawing.Point(12, 446);
-            this.gbAdditionalSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.gbAdditionalSettings.Location = new System.Drawing.Point(21, 808);
+            this.gbAdditionalSettings.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.gbAdditionalSettings.Name = "gbAdditionalSettings";
-            this.gbAdditionalSettings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.gbAdditionalSettings.Size = new System.Drawing.Size(1233, 156);
+            this.gbAdditionalSettings.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.gbAdditionalSettings.Size = new System.Drawing.Size(2158, 283);
             this.gbAdditionalSettings.TabIndex = 49;
             this.gbAdditionalSettings.TabStop = false;
             this.gbAdditionalSettings.Text = "Расширенные настройки";
@@ -410,18 +414,19 @@
             this.panel3.Controls.Add(this.numericUpDown1);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.textBox1);
-            this.panel3.Location = new System.Drawing.Point(283, 13);
+            this.panel3.Location = new System.Drawing.Point(495, 24);
+            this.panel3.Margin = new System.Windows.Forms.Padding(5);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(336, 138);
+            this.panel3.Size = new System.Drawing.Size(588, 250);
             this.panel3.TabIndex = 63;
             // 
             // btnIndPollInfo
             // 
             this.btnIndPollInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIndPollInfo.Location = new System.Drawing.Point(185, 92);
-            this.btnIndPollInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnIndPollInfo.Location = new System.Drawing.Point(324, 167);
+            this.btnIndPollInfo.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.btnIndPollInfo.Name = "btnIndPollInfo";
-            this.btnIndPollInfo.Size = new System.Drawing.Size(133, 28);
+            this.btnIndPollInfo.Size = new System.Drawing.Size(233, 51);
             this.btnIndPollInfo.TabIndex = 62;
             this.btnIndPollInfo.Text = "О приборе";
             this.btnIndPollInfo.UseVisualStyleBackColor = true;
@@ -430,27 +435,29 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 98);
+            this.label8.Location = new System.Drawing.Point(7, 178);
+            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 17);
+            this.label8.Size = new System.Drawing.Size(91, 29);
             this.label8.TabIndex = 58;
             this.label8.Text = "Канал:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 68);
+            this.label3.Location = new System.Drawing.Point(7, 123);
+            this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 17);
+            this.label3.Size = new System.Drawing.Size(100, 29);
             this.label3.TabIndex = 57;
             this.label3.Text = "Парам.:";
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(85, 96);
-            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown2.Location = new System.Drawing.Point(149, 174);
+            this.numericUpDown2.Margin = new System.Windows.Forms.Padding(7);
             this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(75, 22);
+            this.numericUpDown2.Size = new System.Drawing.Size(131, 35);
             this.numericUpDown2.TabIndex = 56;
             this.numericUpDown2.Value = new decimal(new int[] {
             1,
@@ -460,10 +467,10 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(85, 66);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown1.Location = new System.Drawing.Point(149, 120);
+            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(7);
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(75, 22);
+            this.numericUpDown1.Size = new System.Drawing.Size(131, 35);
             this.numericUpDown1.TabIndex = 55;
             this.numericUpDown1.Value = new decimal(new int[] {
             1,
@@ -474,20 +481,21 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 4);
+            this.label2.Location = new System.Drawing.Point(7, 7);
+            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 17);
+            this.label2.Size = new System.Drawing.Size(193, 29);
             this.label2.TabIndex = 52;
             this.label2.Text = "Адрес прибора:";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(7, 24);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox1.Location = new System.Drawing.Point(12, 44);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(153, 22);
+            this.textBox1.Size = new System.Drawing.Size(265, 35);
             this.textBox1.TabIndex = 51;
-            this.textBox1.Text = "1119271";
+            this.textBox1.Text = "2467241";
             // 
             // panel1
             // 
@@ -495,30 +503,33 @@
             this.panel1.Controls.Add(this.cbConfiguration);
             this.panel1.Controls.Add(this.checkBoxPollOffline);
             this.panel1.Controls.Add(this.cbJustRead);
-            this.panel1.Location = new System.Drawing.Point(6, 13);
+            this.panel1.Location = new System.Drawing.Point(10, 24);
+            this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(271, 138);
+            this.panel1.Size = new System.Drawing.Size(474, 250);
             this.panel1.TabIndex = 61;
             // 
             // cbJustRead
             // 
             this.cbJustRead.AutoSize = true;
-            this.cbJustRead.Location = new System.Drawing.Point(14, 44);
-            this.cbJustRead.Margin = new System.Windows.Forms.Padding(4);
+            this.cbJustRead.Checked = true;
+            this.cbJustRead.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbJustRead.Location = new System.Drawing.Point(24, 80);
+            this.cbJustRead.Margin = new System.Windows.Forms.Padding(7);
             this.cbJustRead.Name = "cbJustRead";
-            this.cbJustRead.Size = new System.Drawing.Size(128, 21);
+            this.cbJustRead.Size = new System.Drawing.Size(219, 33);
             this.cbJustRead.TabIndex = 54;
             this.cbJustRead.Text = "Только чтение";
             this.cbJustRead.UseVisualStyleBackColor = true;
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(625, 13);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.richTextBox1.Location = new System.Drawing.Point(1094, 24);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox1.Size = new System.Drawing.Size(602, 139);
+            this.richTextBox1.Size = new System.Drawing.Size(1050, 249);
             this.richTextBox1.TabIndex = 51;
             this.richTextBox1.Text = "";
             this.richTextBox1.DoubleClick += new System.EventHandler(this.richTextBox1_DoubleClick);
@@ -528,10 +539,10 @@
             this.pictureBoxLogo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBoxLogo.Image = global::elfextendedapp.Properties.Resources.pi_logo_2;
             this.pictureBoxLogo.InitialImage = null;
-            this.pictureBoxLogo.Location = new System.Drawing.Point(902, 9);
-            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBoxLogo.Location = new System.Drawing.Point(1578, 16);
+            this.pictureBoxLogo.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.pictureBoxLogo.Name = "pictureBoxLogo";
-            this.pictureBoxLogo.Size = new System.Drawing.Size(54, 52);
+            this.pictureBoxLogo.Size = new System.Drawing.Size(94, 94);
             this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxLogo.TabIndex = 50;
             this.pictureBoxLogo.TabStop = false;
@@ -541,9 +552,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(12, 17);
+            this.label5.Location = new System.Drawing.Point(21, 31);
+            this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(128, 31);
+            this.label5.Size = new System.Drawing.Size(220, 55);
             this.label5.TabIndex = 51;
             this.label5.Text = "Пульсар";
             // 
@@ -564,18 +576,21 @@
             this.gbConnection.Controls.Add(this.comboBoxComPorts);
             this.gbConnection.Controls.Add(this.textBoxPort);
             this.gbConnection.Controls.Add(this.textBoxIp);
-            this.gbConnection.Location = new System.Drawing.Point(973, 12);
+            this.gbConnection.Location = new System.Drawing.Point(1703, 22);
+            this.gbConnection.Margin = new System.Windows.Forms.Padding(5);
             this.gbConnection.Name = "gbConnection";
-            this.gbConnection.Size = new System.Drawing.Size(272, 419);
+            this.gbConnection.Padding = new System.Windows.Forms.Padding(5);
+            this.gbConnection.Size = new System.Drawing.Size(476, 759);
             this.gbConnection.TabIndex = 59;
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "Подключение";
             // 
             // btnApplyConnectionSettings
             // 
-            this.btnApplyConnectionSettings.Location = new System.Drawing.Point(17, 362);
+            this.btnApplyConnectionSettings.Location = new System.Drawing.Point(30, 656);
+            this.btnApplyConnectionSettings.Margin = new System.Windows.Forms.Padding(5);
             this.btnApplyConnectionSettings.Name = "btnApplyConnectionSettings";
-            this.btnApplyConnectionSettings.Size = new System.Drawing.Size(233, 35);
+            this.btnApplyConnectionSettings.Size = new System.Drawing.Size(408, 63);
             this.btnApplyConnectionSettings.TabIndex = 72;
             this.btnApplyConnectionSettings.Text = "Применить";
             this.btnApplyConnectionSettings.UseVisualStyleBackColor = true;
@@ -584,21 +599,21 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(16, 236);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Location = new System.Drawing.Point(28, 428);
+            this.label10.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(169, 17);
+            this.label10.Size = new System.Drawing.Size(296, 29);
             this.label10.TabIndex = 71;
             this.label10.Text = "Выберите локальный ip:";
             // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(17, 257);
-            this.listBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.listBox1.ItemHeight = 29;
+            this.listBox1.Location = new System.Drawing.Point(30, 466);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(7);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(233, 84);
+            this.listBox1.Size = new System.Drawing.Size(405, 149);
             this.listBox1.TabIndex = 70;
             this.listBox1.Visible = false;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
@@ -606,27 +621,30 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(216, 147);
+            this.label7.Location = new System.Drawing.Point(378, 266);
+            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(34, 17);
+            this.label7.Size = new System.Drawing.Size(59, 29);
             this.label7.TabIndex = 69;
             this.label7.Text = "(мс)";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 147);
+            this.label6.Location = new System.Drawing.Point(28, 266);
+            this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(119, 17);
+            this.label6.Size = new System.Drawing.Size(207, 29);
             this.label6.TabIndex = 68;
             this.label6.Text = "Таймаут чтение:";
             // 
             // rbCom
             // 
             this.rbCom.AutoSize = true;
-            this.rbCom.Location = new System.Drawing.Point(17, 65);
+            this.rbCom.Location = new System.Drawing.Point(30, 118);
+            this.rbCom.Margin = new System.Windows.Forms.Padding(5);
             this.rbCom.Name = "rbCom";
-            this.rbCom.Size = new System.Drawing.Size(60, 21);
+            this.rbCom.Size = new System.Drawing.Size(100, 33);
             this.rbCom.TabIndex = 67;
             this.rbCom.TabStop = true;
             this.rbCom.Tag = "com";
@@ -636,9 +654,10 @@
             // rbTcp
             // 
             this.rbTcp.AutoSize = true;
-            this.rbTcp.Location = new System.Drawing.Point(17, 39);
+            this.rbTcp.Location = new System.Drawing.Point(30, 71);
+            this.rbTcp.Margin = new System.Windows.Forms.Padding(5);
             this.rbTcp.Name = "rbTcp";
-            this.rbTcp.Size = new System.Drawing.Size(56, 21);
+            this.rbTcp.Size = new System.Drawing.Size(93, 33);
             this.rbTcp.TabIndex = 66;
             this.rbTcp.TabStop = true;
             this.rbTcp.Tag = "tcp";
@@ -649,44 +668,46 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 117);
+            this.label4.Location = new System.Drawing.Point(28, 212);
+            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(121, 17);
+            this.label4.Size = new System.Drawing.Size(210, 29);
             this.label4.TabIndex = 64;
             this.label4.Text = "Таймаут запись: ";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(216, 116);
+            this.label1.Location = new System.Drawing.Point(378, 210);
+            this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 17);
+            this.label1.Size = new System.Drawing.Size(59, 29);
             this.label1.TabIndex = 60;
             this.label1.Text = "(мс)";
             // 
             // textBoxPort
             // 
-            this.textBoxPort.Location = new System.Drawing.Point(194, 38);
-            this.textBoxPort.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxPort.Location = new System.Drawing.Point(340, 69);
+            this.textBoxPort.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textBoxPort.Name = "textBoxPort";
-            this.textBoxPort.Size = new System.Drawing.Size(56, 22);
+            this.textBoxPort.Size = new System.Drawing.Size(95, 35);
             this.textBoxPort.TabIndex = 56;
             this.textBoxPort.Text = "4001";
             // 
             // textBoxIp
             // 
-            this.textBoxIp.Location = new System.Drawing.Point(89, 38);
-            this.textBoxIp.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBoxIp.Location = new System.Drawing.Point(156, 69);
+            this.textBoxIp.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textBoxIp.Name = "textBoxIp";
-            this.textBoxIp.Size = new System.Drawing.Size(99, 22);
+            this.textBoxIp.Size = new System.Drawing.Size(170, 35);
             this.textBoxIp.TabIndex = 55;
-            this.textBoxIp.Text = "10.0.0.11";
+            this.textBoxIp.Text = "192.168.2.33";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1255, 642);
+            this.ClientSize = new System.Drawing.Size(2196, 1164);
             this.Controls.Add(this.gbConnection);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.pictureBoxLogo);
@@ -698,10 +719,9 @@
             this.Controls.Add(this.buttonPing);
             this.Controls.Add(this.dgv1);
             this.Controls.Add(this.buttonImport);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Заголовок генерируется автоматически";

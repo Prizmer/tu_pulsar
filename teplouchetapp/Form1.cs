@@ -200,7 +200,7 @@ namespace elfextendedapp
 
             try
             {
-                Meter = new PulsarDriver();
+                Meter = new PulsarDriver(pulsarMeterType);
                 Meter.Init(mAddr, mPass, virtPort);
                 return true;
             }
@@ -322,16 +322,45 @@ namespace elfextendedapp
             MessageBox.Show(str, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        PulsarMeterTypes pulsarMeterType;
+
+        private void selectPulsarMeterType()
+        {
+            PulsarMeterTypes pulsarMeterType;
+
+            switch (cbConfiguration.SelectedIndex)
+            {
+                case -1:
+                case 0:
+                    {
+                        pulsarMeterType = PulsarMeterTypes.pulsarM;
+                        break;
+                    }
+                case 1:
+                    {
+                        pulsarMeterType = PulsarMeterTypes.voda_v11;
+                        break;
+                    }
+                default:
+                    {
+                        pulsarMeterType = (PulsarMeterTypes)Enum.Parse(typeof(PulsarMeterTypes), cbConfiguration.SelectedItem.ToString());
+                        break;
+                    }
+
+            }
+
+
+            this.pulsarMeterType = pulsarMeterType;
+        }
+
+        private bool isWater()
+        {
+            int idx = cbConfiguration.SelectedIndex;
+            return idx > 0 && idx < 3 || idx > 5;
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-
-            //byte[] arr = { 0x01, 0x11, 0x92, 0x71, 0x01, 0x12, 0x7B, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x94, 0x3F, 0x03, 0x66, 0x40, 0x97  };
-            //byte[] arr2 = { 0x7B, 0x14, 0xAE, 0x47 };
-            //byte[] arr3 = { 0xE1, 0x7A, 0x94, 0x3F };
-            //Array.Reverse(arr2); 
-            //double tmp = BitConverter.ToDouble(arr, 6);
-            //Debug.WriteLine(tmp);
-            //Environment.Exit(1);
 
             //setting up dialogs
             ofd1.Filter = "Excel files (*.xls) | *.xls";
@@ -341,8 +370,11 @@ namespace elfextendedapp
 
             this.cbConfiguration.Items.Add("Многоканальные счетчики");
             this.cbConfiguration.Items.Add("Вода");
-            this.cbConfiguration.SelectedIndex = 0;
 
+            foreach (string type in Enum.GetNames(typeof(PulsarMeterTypes)))
+                this.cbConfiguration.Items.Add(type);
+
+            this.cbConfiguration.SelectedIndex = 0;
 
             refreshSerialPortComboBox();
             setVirtualPort();
@@ -444,7 +476,7 @@ namespace elfextendedapp
 
                 }
             }
-            else if (cfgId == 1)
+            else
             {
                 if (cbFromFileTcp.Checked)
                 {
@@ -756,7 +788,7 @@ namespace elfextendedapp
                 {
                     try
                     {
-                        Meter = new PulsarDriver();
+                        Meter = new PulsarDriver(pulsarMeterType);
                         uint address = uint.Parse(o.ToString());
 
                         if (cbFromFileTcp.Checked)
@@ -964,7 +996,7 @@ namespace elfextendedapp
                         }
     
 
-                        Meter = new PulsarDriver();
+                        Meter = new PulsarDriver(pulsarMeterType);
                         uint address = uint.Parse(o.ToString());
 
                         if (cbFromFileTcp.Checked)
@@ -1072,7 +1104,8 @@ namespace elfextendedapp
                 {
                     try
                     {
-                        Meter = new PulsarDriver();
+
+                        Meter = new PulsarDriver(pulsarMeterType);
                         uint address = uint.Parse(o.ToString());
 
                         if (cbFromFileTcp.Checked)
@@ -1086,7 +1119,7 @@ namespace elfextendedapp
                         Meter.Init(address, "", Vp);
 
                         string meterType = "";
-                        bool isWater = false;
+
                         if (Meter.ReadMeterType(ref meterType))
                         {
                             dt.Rows[i]["colResult"] = "На связи";
@@ -1097,7 +1130,9 @@ namespace elfextendedapp
                         } 
                         else
                         {
-                            dt.Rows[i]["colResult"] = "Тип прибора";
+                            dt.Rows[i]["colResult"] = "Тип n/a";
+                            dt.Rows[i]["colMeterType"] = pulsarMeterType.ToString();
+                            
                         }
 
                         if (Meter.ReadSerialNumber(ref meterType))
@@ -1106,46 +1141,43 @@ namespace elfextendedapp
                         }
                         else
                         {
-                            WriteToLog("Не определен sn");
+                            WriteToLog("SN n/a");
                         }
 
+
+                  
 
                         List<byte> typesList = new List<byte>();
 
-                        typesList.Add(1); //t pod
-                        typesList.Add(2); //t obr
-                        typesList.Add(3); //energy
-                        typesList.Add(4); //volume
-                        Meter.SetTypesForRead(typesList);
-                        Values val = new Values();
-                        if (Meter.ReadCurrentValues(ref val))
+                        if (isWater())
                         {
-                            dt.Rows[i]["colTempPod"] = val.listRV[0].value;
-                            dt.Rows[i]["colTempObr"] = val.listRV[1].value;
-                            dt.Rows[i]["colEnergy"] = val.listRV[2].value;
-                            dt.Rows[i]["colVolume"] = val.listRV[3].value;
+                            typesList.Add(1); // объем
 
+                            Meter.SetTypesForRead(typesList);
+                            Values val = new Values();
+                            if (Meter.ReadCurrentValues(ref val))
+                            {
+                                dt.Rows[i]["colVolume"] = val.listRV[0].value;
+                            }
                         }
+                        else { 
+                            //typesList.Add(3); //t pod
+                            //typesList.Add(4); //t obr
+                            typesList.Add(7); //energy
+                            //typesList.Add(8); //volume
+                            Meter.SetTypesForRead(typesList);
 
-                        //if (!isWater)
-                        //{ 
-                        //    typesList.Add(3); //t pod
-                        //    typesList.Add(4); //t obr
-                        //    typesList.Add(7); //energy
-                        //    typesList.Add(8); //volume
-                        //    Meter.SetTypesForRead(typesList);
+                            string constDbl = "0.#######";
 
-                        //    string constDbl = "0.#######"; 
-
-                        //    Values val = new Values();
-                        //    if (Meter.ReadCurrentValues(ref val))
-                        //    {
-                        //        dt.Rows[i]["colTempPod"] = val.listRV[0].value;
-                        //        dt.Rows[i]["colTempObr"] = val.listRV[1].value;
-                        //        dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
-                        //        dt.Rows[i]["colVolume"] = val.listRV[3].value;
-                        //    }
-                        //}
+                            Values val = new Values();
+                            if (Meter.ReadDailyValues((byte)DateTime.Now.Day, (byte)DateTime.Now.Month, (ushort)DateTime.Now.Year, ref val))
+                            {
+                                //dt.Rows[i]["colTempPod"] = val.listRV[0].value;
+                                //dt.Rows[i]["colTempObr"] = val.listRV[1].value;
+                                dt.Rows[i]["colEnergy"] = val.listRV[2].value.ToString(constDbl);
+                                //dt.Rows[i]["colVolume"] = val.listRV[0].value;
+                            }
+                        }
                         //else
                         //{
                         //    WriteToLog("Water == true");
@@ -1388,7 +1420,7 @@ namespace elfextendedapp
         {
             string serial = "", sw = "", mt = "";
 
-            PulsarDriver pd = new PulsarDriver();
+            PulsarDriver pd = new PulsarDriver(pulsarMeterType);
             pd.Init(uint.Parse(textBox1.Text), "", Vp);
 
             if (!pd.ReadSerialNumber(ref serial))
@@ -1433,7 +1465,7 @@ namespace elfextendedapp
 
         private void btnIndPollDaily_Click(object sender, EventArgs e)
         {
-            PulsarDriver pd = new PulsarDriver();
+            PulsarDriver pd = new PulsarDriver(pulsarMeterType);
             Values vals = new Values();
 
             pd.Init(uint.Parse(textBox1.Text), "", Vp);
@@ -1452,7 +1484,7 @@ namespace elfextendedapp
 
         private void btnIndPollCurrent_Click(object sender, EventArgs e)
         {
-            PulsarDriver pd = new PulsarDriver();
+            PulsarDriver pd = new PulsarDriver(pulsarMeterType);
             Values vals = new Values();
 
             pd.Init(uint.Parse(textBox1.Text), "", Vp);
@@ -1488,6 +1520,11 @@ namespace elfextendedapp
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.selectedLocalIp = ((ListBox)sender).SelectedItem.ToString();
+        }
+
+        private void cbConfiguration_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectPulsarMeterType();
         }
     }
 
